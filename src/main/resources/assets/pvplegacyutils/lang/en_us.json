@@ -1,0 +1,20 @@
+{
+  "options.pvplegacyutils.stats": "Right-click for stats of a player",
+  "options.pvplegacyutils.stats_middleclick": "Middle-click for your own stats",
+  "options.pvplegacyutils.stats_middleclick.tooltip.1": "Internally uses the Pick Block functionality,",
+  "options.pvplegacyutils.stats_middleclick.tooltip.2": "which is middle-click by default.",
+  "options.pvplegacyutils.stats_middleclick.tooltip.3": "Make sure you have Pick Block bound to a key.",
+  "options.pvplegacyutils.autogg": "Say \"gg\" after a round ends",
+  "options.pvplegacyutils.duel": "Notify when someone invites you to a duel",
+  "options.pvplegacyutils.invite": "Notify when someone invites you to a party",
+  "options.pvplegacyutils.ten_vs_ten": "Notify when a ?v? game is starting",
+  "options.pvplegacyutils.leave_explicit": "Explicitly /leave queues",
+  "options.pvplegacyutils.leave_explicit.tooltip.1": "Make it not possible",
+  "options.pvplegacyutils.leave_explicit.tooltip.2": "to leave the current queue",
+  "options.pvplegacyutils.leave_explicit.tooltip.3": "by right-clicking another sign.",
+  "options.pvplegacyutils.leave_explicit.tooltip.4": "You can still do it by",
+  "options.pvplegacyutils.leave_explicit.tooltip.5": "sneak-right-clicking on a sign,",
+  "options.pvplegacyutils.leave_explicit.tooltip.6": "to check a kit of a sign,",
+  "options.pvplegacyutils.leave_explicit.tooltip.7": "or to re-queue in another sign.",
+  "options.pvplegacyutils.leftclick_leave": "Left-click on a sign to leave a queue"
+}

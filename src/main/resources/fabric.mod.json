@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "pvplegacyutils",
+  "version": "${version}",
+
+  "name": "PvP Legacy Utils",
+  "description": "This is a mod that provides additional client-side features on the server PvP Legacy.",
+  "authors": [
+    "Andy Russo"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/pvplegacyutils",
+    "sources": "https://github.com/andyrusso/pvplegacyutils",
+    "issues": "https://github.com/andyrusso/pvplegacyutils/issues"
+  },
+
+  "license": "GPL-3.0-or-later",
+  "icon": "assets/pvplegacyutils/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "io.github.andyrusso.pvplegacyutils.PvPLegacyUtils"
+    ],
+    "modmenu": [
+      "io.github.andyrusso.pvplegacyutils.ModMenuIntegration"
+    ]
+  },
+
+  "mixins": [
+    "pvplegacyutils.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric": ">=0.55.1",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+
+  "suggests": {
+    "modmenu": ">=4.0.0",
+    "cloth-config": ">=7.0.69"
+  }
+}

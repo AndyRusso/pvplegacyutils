@@ -104,7 +104,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Ignore player messages.
 		if (PvPLegacyUtilsAPI.isPlayerMessage(text)) return;
 
-		if ((PvPLegacyUtilsConfig.get(ConfigOptions.AUTOGG) && text.contains("has won the")) || text.contains("The game was a draw!")) {
+		if ((PvPLegacyUtilsConfig.get(ConfigOptions.AUTOGG) && text.contains("has won the")) || text.contains("The game was a draw!") || text.contains("have won the")) {
+
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.player != null && client.world != null) {
 				// Get the player's team.

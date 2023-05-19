@@ -6,7 +6,8 @@
   "name": "PvP Legacy Utils",
   "description": "This is a mod that provides additional client-side features on the server PvP Legacy.",
   "authors": [
-    "Andy Russo"
+    "Andy Russo",
+    "ImComfy"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/pvplegacyutils",

@@ -103,11 +103,15 @@ public abstract class PvPLegacyUtilsAPI {
      *
      * <p>Player messages always start with "<", and personal messages (/w) always have the "-" character.
      * <p>For example, they start with: {@code [AndyRusso -> You]} or {@code [You -> AndyRusso]}.
+     * <p>Also, when a player uses the party chat, the message will be of form: "[X's Party] <..."
+     * so, we detect all messages falling in that pattern.
      * @param message The string to check.
      * @return {@code true} or {@code false}.
      */
     public static boolean isPlayerMessage(String message) {
-        return message.startsWith("<") || message.contains("-");
+        return message.startsWith("<") ||
+                message.contains("-") ||
+                message.matches("^\\[[a-zA-Z0-9_]{2,16}'s Party] <.*");
     }
 
     /**

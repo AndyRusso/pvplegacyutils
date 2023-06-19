@@ -104,8 +104,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Ignore player messages.
 		if (PvPLegacyUtilsAPI.isPlayerMessage(text)) return;
 
-		if (PvPLegacyUtilsConfig.get(ConfigOptions.AUTOGG) &&
-				text.contains("won the") || text.contains("The game was a draw!")) {
+		PvPLegacyUtilsConfig config = PvPLegacyUtilsConfig.getInstance();
+
+		if (config.autogg && text.contains("won the") || text.contains("The game was a draw!")) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.player != null && client.world != null) {
 				// Get the player's team.
@@ -118,13 +119,11 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 				Versioned.sendChatMessage("gg");
 			}
-		} else if (PvPLegacyUtilsConfig.get(ConfigOptions.DUEL) && text.contains("wants to duel")) {
+		} else if (config.pingDuel && text.contains("wants to duel")) {
 			playSound();
-		} else if (PvPLegacyUtilsConfig.get(ConfigOptions.INVITE) && text.contains("You have been invited to join")) {
+		} else if (config.pingInvite && text.contains("You have been invited to join")) {
 			playSound();
-		} else if (PvPLegacyUtilsConfig.get(ConfigOptions.TEN_VS_TEN) &&
-				text.contains("?v?") &&
-				text.contains("game is starting in")) {
+		} else if (config.pingTenVSTen && text.contains("?v?") && text.contains("game is starting in")) {
 			playSound();
 		}
 	}
@@ -133,7 +132,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Although isInLobby() already contains the isVl() check, we still need the isVl() check as a separate thing,
 		// to prevent spectators on other servers to run the /stats command.
 		if (!PvPLegacyUtilsAPI.isVl() ||
-				!PvPLegacyUtilsConfig.get(ConfigOptions.STATS_MIDDLECLICK) ||
+				!PvPLegacyUtilsConfig.getInstance().statsMiddleClick ||
 				// The feature isn't supposed to work if the hud is hidden.
 				MinecraftClient.getInstance().options.hudHidden ||
 				!PvPLegacyUtilsAPI.isInLobby() &&
@@ -151,7 +150,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 	private static ActionResult onUseEntity(PlayerEntity player, World world, Hand hand,
 											Entity entity, HitResult hitResult) {
-		if (!PvPLegacyUtilsConfig.get(ConfigOptions.STATS) ||
+		if (!PvPLegacyUtilsConfig.getInstance().statsRightClick ||
 				!PvPLegacyUtilsAPI.isInLobby() ||
 				// Check if the clicked entity is a player or not.
 				!(entity instanceof PlayerEntity) ||
@@ -200,7 +199,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		if (!PvPLegacyUtilsAPI.isInLobby()) return;
 
 		if (cooldowns.get(CooldownNames.LEFTCLICK_LEAVE) == 0 &&
-				PvPLegacyUtilsConfig.get(ConfigOptions.LEAVE_LEFTCLICK) &&
+				PvPLegacyUtilsConfig.getInstance().leaveLeftClick &&
 				PvPLegacyUtilsAPI.isInQueue() &&
 				// Check if the clicked block is the sign that the player has queued in.
 				blockPos.equals(PvPLegacyUtilsAPI.getQueuedSignBlock()) &&
@@ -220,7 +219,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
 		if (block instanceof AbstractSignBlock) {
 			PvPLegacyUtilsAPI.setTemporarySignBlock(hitResult.getBlockPos());
-			if (PvPLegacyUtilsConfig.get(ConfigOptions.LEAVE_EXPLICIT) &&
+			if (PvPLegacyUtilsConfig.getInstance().leaveExplicitly &&
 					PvPLegacyUtilsAPI.isInQueue() &&
 					!player.isSneaking())
 				return ActionResult.FAIL;
@@ -246,9 +245,6 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		Versioned.load();
 		LOGGER.info("Loaded the version dependent implementations...");
-
-		PvPLegacyUtilsConfig.open();
-		LOGGER.info("Opened the config...");
 
 		// Responsible for chat-based features,
 		// such as: auto gg, duel notification, party invite notification, ?v? notification.

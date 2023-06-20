@@ -24,67 +24,67 @@ public class ModMenuIntegration implements ModMenuApi {
             menu.getOrCreateCategory(Text.literal("General"))
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.stats",
+                                    "pvplegacyutils.stats.rightClick",
                                     config.statsRightClick,
                                     value -> config.statsRightClick = value
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.stats_middleclick",
+                                    "pvplegacyutils.stats.middleClick",
                                     config.statsMiddleClick,
                                     value -> config.statsMiddleClick = value,
-                                    Text.translatable("options.pvplegacyutils.stats_middleclick.tooltip.1"),
-                                    Text.translatable("options.pvplegacyutils.stats_middleclick.tooltip.2"),
-                                    Text.translatable("options.pvplegacyutils.stats_middleclick.tooltip.3")
+                                    Text.translatable("pvplegacyutils.stats.middleClick.tooltip.1"),
+                                    Text.translatable("pvplegacyutils.stats.middleClick.tooltip.2"),
+                                    Text.translatable("pvplegacyutils.stats.middleClick.tooltip.3")
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.autogg",
+                                    "pvplegacyutils.autogg",
                                     config.autogg,
                                     value -> config.autogg = value
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.duel",
+                                    "pvplegacyutils.ping.duel",
                                     config.pingDuel,
                                     value -> config.pingDuel = value
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.invite",
+                                    "pvplegacyutils.ping.invite",
                                     config.pingInvite,
                                     value -> config.pingInvite = value
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.ten_vs_ten",
+                                    "pvplegacyutils.ping.tenVSTen",
                                     config.pingTenVSTen,
                                     value -> config.pingTenVSTen = value
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.leave_explicit",
+                                    "pvplegacyutils.leave.explicit",
                                     config.leaveExplicitly,
                                     value -> config.leaveExplicitly = value,
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.1"),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.2"),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.3"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.1"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.2"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.3"),
                                     Text.literal(" "),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.4"),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.5"),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.6"),
-                                    Text.translatable("options.pvplegacyutils.leave_explicit.tooltip.7")
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.4"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.5"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.6"),
+                                    Text.translatable("pvplegacyutils.leave.explicit.tooltip.7")
                             )
                     )
                     .addEntry(
                             toggleOption(
-                                    "options.pvplegacyutils.leftclick_leave",
+                                    "pvplegacyutils.leave.leftClick",
                                     config.leaveLeftClick,
                                     value -> config.leaveLeftClick = value
                             )

@@ -106,7 +106,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		PvPLegacyUtilsConfig config = PvPLegacyUtilsConfig.getInstance();
 
-		if (config.autogg && text.contains("won the") || text.contains("The game was a draw!")) {
+		if (config.autogg && (text.contains("won the") || text.contains("The game was a draw!"))) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.player != null && client.world != null) {
 				// Get the player's team.

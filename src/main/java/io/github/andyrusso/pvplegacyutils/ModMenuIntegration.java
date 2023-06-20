@@ -62,6 +62,13 @@ public class ModMenuIntegration implements ModMenuApi {
                     )
                     .addEntry(
                             toggleOption(
+                                    "pvplegacyutils.ping.godGame",
+                                    config.pingGodGame,
+                                    value -> config.pingGodGame = value
+                            )
+                    )
+                    .addEntry(
+                            toggleOption(
                                     "pvplegacyutils.leave.explicit",
                                     config.leaveExplicitly,
                                     value -> config.leaveExplicitly = value,

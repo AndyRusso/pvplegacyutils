@@ -25,6 +25,7 @@ public class PvPLegacyUtilsConfig {
     public boolean pingDuel = true;
     public boolean pingInvite = true;
     public boolean pingTenVSTen = true;
+    public boolean pingGodGame = true;
     public boolean leaveExplicitly = true;
     public boolean leaveLeftClick = true;
 

@@ -123,8 +123,10 @@ public class PvPLegacyUtils implements ClientModInitializer {
 			playSound();
 		} else if (config.pingInvite && text.contains("You have been invited to join")) {
 			playSound();
-		} else if (config.pingTenVSTen && text.contains("?v?") && text.contains("game is starting in")) {
-			playSound();
+		} else if (text.contains("is starting in")) {
+			if (config.pingGodGame && text.contains("God Game") || config.pingTenVSTen && text.contains("?v?")) {
+				playSound();
+			}
 		}
 	}
 

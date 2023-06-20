@@ -9,6 +9,7 @@
   "pvplegacyutils.ping.duel": "Notify when someone invites you to a duel",
   "pvplegacyutils.ping.invite": "Notify when someone invites you to a party",
   "pvplegacyutils.ping.tenVSTen": "Notify when a ?v? game is starting",
+  "pvplegacyutils.ping.godGame": "Notify when a God Game is starting",
   "pvplegacyutils.leave.explicit": "Explicitly /leave queues",
   "pvplegacyutils.leave.explicit.tooltip.1": "Make it not possible",
   "pvplegacyutils.leave.explicit.tooltip.2": "to leave the current queue",

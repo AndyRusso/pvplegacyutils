@@ -133,7 +133,9 @@ public abstract class PvPLegacyUtilsAPI {
             PvPLegacyUtilsAPI.queuedSignBlock = temporarySignBlock;
             setIsInQueue(true);
         } else if (text.contains("The host left, the queue has ended.") ||
-                text.startsWith("You have left the queue.")) {
+                text.startsWith("You have left the queue.") ||
+                // Happens very rarely in 10v10 queues, after this message the queue is disbanded
+                text.contains("Game failed to start.")) {
             // Set the queuedSignBlock to 0, 0, 0, to ensure that it won't be mistaken for any other sign.
             PvPLegacyUtilsAPI.queuedSignBlock = BlockPos.ORIGIN;
             setIsInQueue(false);

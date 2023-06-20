@@ -17,11 +17,11 @@ public class ModMenuIntegration implements ModMenuApi {
         return parent -> {
             PvPLegacyUtilsConfig config = PvPLegacyUtilsConfig.getInstance();
             ConfigBuilder menu = ConfigBuilder.create()
-                    .setTitle(Text.literal("PvP Legacy Utils Config menu"))
+                    .setTitle(Text.translatable("pvplegacyutils.title"))
                     .setParentScreen(parent)
                     .setSavingRunnable(config::save);
 
-            menu.getOrCreateCategory(Text.literal("General"))
+            menu.getOrCreateCategory(Text.translatable("pvplegacyutils.general"))
                     .addEntry(
                             toggleOption(
                                     "pvplegacyutils.stats.rightClick",
@@ -37,13 +37,6 @@ public class ModMenuIntegration implements ModMenuApi {
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.1"),
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.2"),
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.3")
-                            )
-                    )
-                    .addEntry(
-                            toggleOption(
-                                    "pvplegacyutils.autogg",
-                                    config.autogg,
-                                    value -> config.autogg = value
                             )
                     )
                     .addEntry(
@@ -89,6 +82,17 @@ public class ModMenuIntegration implements ModMenuApi {
                                     value -> config.leaveLeftClick = value
                             )
                     );
+
+            menu.getOrCreateCategory(Text.translatable("pvplegacyutils.versusDuels"))
+                    .addEntry(
+                            toggleOption(
+                                    "pvplegacyutils.autogg",
+                                    config.autogg,
+                                    value -> config.autogg = value
+                            )
+                    );
+
+            menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"));
 
             return menu.build();
         };

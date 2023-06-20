@@ -1,10 +1,11 @@
 {
+  "pvplegacyutils.title": "PvP Legacy Utils config menu",
+  "pvplegacyutils.general": "General",
   "pvplegacyutils.stats.rightClick": "Right-click for stats of a player",
   "pvplegacyutils.stats.middleClick": "Middle-click for your own stats",
   "pvplegacyutils.stats.middleClick.tooltip.1": "Internally uses the Pick Block functionality,",
   "pvplegacyutils.stats.middleClick.tooltip.2": "which is middle-click by default.",
   "pvplegacyutils.stats.middleClick.tooltip.3": "Make sure you have Pick Block bound to a key.",
-  "pvplegacyutils.autogg": "Say \"gg\" after a round ends",
   "pvplegacyutils.ping.duel": "Notify when someone invites you to a duel",
   "pvplegacyutils.ping.invite": "Notify when someone invites you to a party",
   "pvplegacyutils.ping.tenVSTen": "Notify when a ?v? game is starting",
@@ -16,5 +17,8 @@
   "pvplegacyutils.leave.explicit.tooltip.5": "sneak-right-clicking on a sign,",
   "pvplegacyutils.leave.explicit.tooltip.6": "to check a kit of a sign,",
   "pvplegacyutils.leave.explicit.tooltip.7": "or to re-queue in another sign.",
-  "pvplegacyutils.leave.leftClick": "Left-click on a sign to leave a queue"
+  "pvplegacyutils.leave.leftClick": "Left-click on a sign to leave a queue",
+  "pvplegacyutils.versusDuels": "Versus duels",
+  "pvplegacyutils.autogg": "Say \"gg\" after a round ends",
+  "pvplegacyutils.ffa": "FFA"
 }

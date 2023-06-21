@@ -271,6 +271,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		// Responsible for counting down cooldowns.
 		ClientTickEvents.START_WORLD_TICK.register(PvPLegacyUtils::worldTick);
+		// Responsible for detecting whether the player is in Lobby, Versus duel, FFA.
+		ClientTickEvents.END_WORLD_TICK.register(PvPLegacyUtilsAPI::detectMode);
 		LOGGER.info("Registered the every tick event...");
 
 		LOGGER.info("Initialization of {} done!", MOD_ID);

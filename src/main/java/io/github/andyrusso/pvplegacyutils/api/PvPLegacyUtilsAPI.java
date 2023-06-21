@@ -2,6 +2,11 @@ package io.github.andyrusso.pvplegacyutils.api;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
+import net.minecraft.scoreboard.ScoreboardPlayerScore;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
@@ -13,6 +18,15 @@ import net.minecraft.util.math.BlockPos;
  * that other mods could potentially use this as an API for their own PvP Legacy client-side mods.
  */
 public abstract class PvPLegacyUtilsAPI {
+    /**
+     * Timeout for mode detection.
+     *
+     * <p>When going from a Versus duel to the Lobby, the scoreboard takes some time to appear.
+     * So, to properly detect that the player is in a Versus duel, there is a 4-second timeout before making a decision,
+     * to let the scoreboard appear if the player is in the lobby.
+     */
+    private static int timeout = 0;
+
     // Whether the player is in a versus duel, FFA, or in the versus lobby
     private static boolean isInDuel = false;
     private static boolean isInFFA = false;
@@ -41,16 +55,17 @@ public abstract class PvPLegacyUtilsAPI {
      */
     private static BlockPos queuedSignBlock;
 
+    public static void setTimeout() {
+        // Set timeout to 80 ticks or 4 seconds
+        timeout = 80;
+    }
+
     /**
      * Although not used yet, could be used with new features.
      * @return whether the player is in a Versus Duel or not.
      */
     public static boolean isInDuel() {
         return isVl() && isInDuel;
-    }
-
-    public static void setIsInDuel(boolean isInDuel) {
-        PvPLegacyUtilsAPI.isInDuel = isInDuel;
     }
 
     /**
@@ -61,16 +76,8 @@ public abstract class PvPLegacyUtilsAPI {
         return isVl() && isInFFA;
     }
 
-    public static void setIsInFFA(boolean isInFFA) {
-        PvPLegacyUtilsAPI.isInFFA = isInFFA;
-    }
-
     public static boolean isInLobby() {
         return isVl() && isInLobby;
-    }
-
-    public static void setIsInLobby(boolean isInLobby) {
-        PvPLegacyUtilsAPI.isInLobby = isInLobby;
     }
 
     public static boolean isInQueue() {
@@ -139,6 +146,58 @@ public abstract class PvPLegacyUtilsAPI {
             // Set the queuedSignBlock to 0, 0, 0, to ensure that it won't be mistaken for any other sign.
             PvPLegacyUtilsAPI.queuedSignBlock = BlockPos.ORIGIN;
             setIsInQueue(false);
+        }
+    }
+
+    public static void detectMode(ClientWorld world) {
+        // Reset all the states
+        isInDuel = false;
+        isInFFA = false;
+        isInLobby = false;
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player == null || !isVl()) return;
+
+        Scoreboard scoreboard = world.getScoreboard();
+        ScoreboardObjective scoreboardObjective = null;
+        Team team = scoreboard.getPlayerTeam(client.player.getEntityName());
+        if (team != null) {
+            int color = team.getColor().getColorIndex();
+            if (color >= 0) {
+                scoreboardObjective = scoreboard.getObjectiveForSlot(3 + color);
+            }
+        }
+
+        ScoreboardObjective scoreboardObjective2 = scoreboardObjective != null ? scoreboardObjective : scoreboard.getObjectiveForSlot(1);
+
+        if (timeout > 0) {
+            timeout--;
+        }
+        // If the scoreboard is empty, this means the player is in a Versus Duel
+        if (scoreboardObjective2 == null) {
+            if (timeout == 0) isInDuel = true;
+            return;
+        }
+
+        // For every "player" in the sidebar scoreboard, check its decorated name and if it contains a word,
+        // because only the Versus Lobby sidebar scoreboard has the "Server" field,
+        // and only FFA has a "Total Deaths" field.
+        for (ScoreboardPlayerScore player :
+                scoreboardObjective2.getScoreboard().getAllPlayerScores(scoreboardObjective2)) {
+            team = scoreboardObjective2.getScoreboard().getPlayerTeam(player.getPlayerName());
+            String name = Team.decorateName(team, Text.literal(player.getPlayerName())).getString();
+            if (name.contains("Server")) {
+                isInLobby = true;
+                return;
+            } else if (name.contains("Total Deaths")) {
+                isInFFA = true;
+                return;
+            }
+        }
+
+        // In any other case, the player is in a Versus Duel, like a Solo pop UHC (unreleased game-mode)
+        if (timeout == 0) {
+            isInDuel = true;
         }
     }
 }

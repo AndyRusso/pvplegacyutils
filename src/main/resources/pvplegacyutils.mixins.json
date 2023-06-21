@@ -6,8 +6,7 @@
   "client": [
     "MixinClientPlayNetworkHandler",
     "MixinClientPlayerInteractionManager",
-    "MixinDownloadingTerrainScreen",
-    "MixinInGameHud"
+    "MixinDownloadingTerrainScreen"
   ],
   "injectors": {
     "defaultRequire": 1

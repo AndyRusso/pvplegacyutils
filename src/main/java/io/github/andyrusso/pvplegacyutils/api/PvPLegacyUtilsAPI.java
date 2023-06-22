@@ -173,24 +173,28 @@ public abstract class PvPLegacyUtilsAPI {
         if (timeout > 0) {
             timeout--;
         }
+
+        // If there is a scoreboard that is displayed in the player list, then the player is in FFA.
+        // (it always shows the amount of kills that a player has, even if it's 0)
+        if (scoreboard.getObjectiveForSlot(Scoreboard.LIST_DISPLAY_SLOT_ID) != null) {
+            isInFFA = true;
+            return;
+        }
+
         // If the scoreboard is empty, this means the player is in a Versus Duel
         if (scoreboardObjective2 == null) {
             if (timeout == 0) isInDuel = true;
             return;
         }
 
-        // For every "player" in the sidebar scoreboard, check its decorated name and if it contains a word,
-        // because only the Versus Lobby sidebar scoreboard has the "Server" field,
-        // and only FFA has a "Total Deaths" field.
+        // For every "player" in the sidebar scoreboard, check its decorated name for "Server",
+        // because only the Versus Lobby sidebar scoreboard has the "Server" field, and it can not be turned off.
         for (ScoreboardPlayerScore player :
                 scoreboardObjective2.getScoreboard().getAllPlayerScores(scoreboardObjective2)) {
             team = scoreboardObjective2.getScoreboard().getPlayerTeam(player.getPlayerName());
             String name = Team.decorateName(team, Text.literal(player.getPlayerName())).getString();
             if (name.contains("Server")) {
                 isInLobby = true;
-                return;
-            } else if (name.contains("Total Deaths")) {
-                isInFFA = true;
                 return;
             }
         }

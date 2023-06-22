@@ -22,5 +22,6 @@
   "pvplegacyutils.versusDuels": "Versus duels",
   "pvplegacyutils.deathParticles": "Death particles",
   "pvplegacyutils.autogg": "Say \"gg\" after a round ends",
-  "pvplegacyutils.ffa": "FFA"
+  "pvplegacyutils.ffa": "FFA",
+  "pvplegacyutils.sortByKills": "Sort the player list by kills"
 }

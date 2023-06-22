@@ -106,7 +106,14 @@ public class ModMenuIntegration implements ModMenuApi {
                             )
                     );
 
-            menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"));
+            menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"))
+                    .addEntry(
+                            toggleOption(
+                                    "pvplegacyutils.sortByKills",
+                                    config.sortByKills,
+                                    value -> config.sortByKills = value
+                            )
+                    );
 
             return menu.build();
         };

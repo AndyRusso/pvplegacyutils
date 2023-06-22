@@ -31,6 +31,8 @@ public class PvPLegacyUtilsConfig {
     //  Versus duels settings
     public boolean deathParticles = true;
     public boolean autogg = true;
+    //  FFA settings
+    public boolean sortByKills = true;
 
     public void save() {
         try {

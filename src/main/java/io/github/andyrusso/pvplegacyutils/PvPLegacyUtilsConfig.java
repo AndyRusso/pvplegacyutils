@@ -17,17 +17,20 @@ public class PvPLegacyUtilsConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static PvPLegacyUtilsConfig instance;
 
+    //  General settings
     // Check someone's stats
     public boolean statsRightClick = true;
     // Check own stats
     public boolean statsMiddleClick = true;
-    public boolean autogg = true;
     public boolean pingDuel = true;
     public boolean pingInvite = true;
     public boolean pingTenVSTen = true;
     public boolean pingGodGame = true;
     public boolean leaveExplicitly = true;
     public boolean leaveLeftClick = true;
+    //  Versus duels settings
+    public boolean deathParticles = true;
+    public boolean autogg = true;
 
     public void save() {
         try {

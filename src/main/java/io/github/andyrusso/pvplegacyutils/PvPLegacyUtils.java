@@ -1,24 +1,26 @@
 package io.github.andyrusso.pvplegacyutils;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import io.github.andyrusso.pvplegacyutils.api.DeathCallback;
 import io.github.andyrusso.pvplegacyutils.api.LeftClickBlockCallback;
 import io.github.andyrusso.pvplegacyutils.api.NewGameMessageCallback;
 import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
-
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -29,7 +31,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -230,6 +231,33 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		return ActionResult.PASS;
 	}
 
+	private static void onDeath(PlayerListEntry playerListEntry) {
+		if (!PvPLegacyUtilsAPI.isInDuel() ||
+				!PvPLegacyUtilsConfig.getInstance().deathParticles ||
+				playerListEntry == null) return;
+
+		MinecraftClient client = MinecraftClient.getInstance();
+		if (client.player == null) return;
+
+		PlayerEntity player = client.player.clientWorld.getPlayerByUuid(playerListEntry.getProfile().getId());
+		if (player == null) return;
+
+		try {
+			client.player.clientWorld.addFireworkParticle(
+					player.getX(),
+					player.getY() + 1,
+					player.getZ(),
+					0,
+					0,
+					0,
+					StringNbtReader.parse("{Flight:0,Explosions:[{Colors:[I;44782,15724017]}]}")
+			);
+		} catch (CommandSyntaxException e) {
+			// Unreachable
+			throw new RuntimeException(e);
+		}
+	}
+
 	private static void worldTick(ClientWorld world) {
 		// Every tick check if a cooldown is set, and if it is decrease it
 		cooldowns.forEach(
@@ -268,6 +296,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Responsible for explicit /leave feature, and is also a data source for the API field "temporarySignBlock".
 		UseBlockCallback.EVENT.register(PvPLegacyUtils::onBlockRightClick);
 		LOGGER.info("Registered the right-click on block event...");
+
+		// Responsible for death particles feature
+		DeathCallback.EVENT.register(PvPLegacyUtils::onDeath);
 
 		// Responsible for counting down cooldowns.
 		ClientTickEvents.START_WORLD_TICK.register(PvPLegacyUtils::worldTick);

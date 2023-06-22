@@ -1,0 +1,3 @@
+accessWidener	v1	named
+accessible class net/minecraft/client/world/ClientEntityManager$Listener
+accessible field net/minecraft/client/world/ClientEntityManager$Listener entity Lnet/minecraft/world/entity/EntityLike;

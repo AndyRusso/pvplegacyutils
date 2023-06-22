@@ -4,6 +4,7 @@
   "package": "io.github.andyrusso.pvplegacyutils.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "MixinClientEntityManagerListener",
     "MixinClientPlayNetworkHandler",
     "MixinClientPlayerInteractionManager",
     "MixinDownloadingTerrainScreen"

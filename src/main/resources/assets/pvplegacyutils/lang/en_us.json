@@ -20,6 +20,7 @@
   "pvplegacyutils.leave.explicit.tooltip.7": "or to re-queue in another sign.",
   "pvplegacyutils.leave.leftClick": "Left-click on a sign to leave a queue",
   "pvplegacyutils.versusDuels": "Versus duels",
+  "pvplegacyutils.deathParticles": "Death particles",
   "pvplegacyutils.autogg": "Say \"gg\" after a round ends",
   "pvplegacyutils.ffa": "FFA"
 }

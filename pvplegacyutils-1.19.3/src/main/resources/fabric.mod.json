@@ -19,6 +19,10 @@
     ]
   },
 
+  "mixins": [
+    "pvplegacyutils-1-19-3.mixins.json"
+  ],
+
   "depends": {
     "fabricloader": ">=0.14.0",
     "fabric": ">=0.68.1",

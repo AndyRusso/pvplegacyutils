@@ -93,6 +93,13 @@ public class ModMenuIntegration implements ModMenuApi {
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.versusDuels"))
                     .addEntry(
                             toggleOption(
+                                    "pvplegacyutils.deathParticles",
+                                    config.deathParticles,
+                                    value -> config.deathParticles = value
+                            )
+                    )
+                    .addEntry(
+                            toggleOption(
                                     "pvplegacyutils.autogg",
                                     config.autogg,
                                     value -> config.autogg = value

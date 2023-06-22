@@ -13,6 +13,8 @@ loom {
     runConfigs.configureEach {
         ideConfigGenerated = true
     }
+
+    accessWidenerPath = file("src/main/resources/pvplegacyutils.accesswidener")
 }
 
 // stuff that applies to all projects

@@ -5,6 +5,10 @@
 archives_base_name = "pvplegacyutils-1.19"
 
 loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = true
+    }
+
     accessWidenerPath = file("src/main/resources/pvplegacyutils-1-19.accesswidener")
 }
 

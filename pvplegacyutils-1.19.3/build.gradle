@@ -4,6 +4,12 @@
 
 archives_base_name = "pvplegacyutils-1.19.3"
 
+loom {
+    runConfigs.configureEach {
+        ideConfigGenerated = true
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:1.19.3"
     mappings "net.fabricmc:yarn:1.19.3+build.5"

@@ -6,7 +6,7 @@ import net.minecraft.client.network.PlayerListEntry;
 
 /**
  * A custom Fabric API event for Versus duel deaths.
- * <p>Detected by players going from some game mode to spectator. Or by being removed from the world.
+ * <p>Detected by players going from some game mode to spectator.
  */
 public interface DeathCallback {
     Event<DeathCallback> EVENT = EventFactory.createArrayBacked(DeathCallback.class,

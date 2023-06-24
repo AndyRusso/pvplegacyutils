@@ -31,6 +31,14 @@ public class PvPLegacyUtilsConfig {
     //  Versus duels settings
     public boolean deathParticles = true;
     public boolean autogg = true;
+    public boolean autoggStartGame = false;
+    public boolean autoggStartRound = false;
+    public boolean autoggEndRound = true;
+    public boolean autoggEndGame = false;
+    public String autoggStartGameText = "glhf";
+    public String autoggStartRoundText = "gl";
+    public String autoggEndRoundText = "gg";
+    public String autoggEndGameText = "wp";
     //  FFA settings
     public boolean sortByKills = true;
 

@@ -107,20 +107,11 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		PvPLegacyUtilsConfig config = PvPLegacyUtilsConfig.getInstance();
 
-		if (config.autogg && (text.contains("won the") || text.contains("The game was a draw!"))) {
-			MinecraftClient client = MinecraftClient.getInstance();
-			if (client.player != null && client.world != null) {
-				// Get the player's team.
-				Team team = client.world.getScoreboard().getPlayerTeam(client.player.getGameProfile().getName());
-				// Fighters in Versus Duels are always in a team with a [R] or [B] prefix,
-				// even after they die and become spectators.
-				// The point of this check is to prevent external spectators,
-				// that join after the game has started, to say "gg".
-				if (team == null) return;
+		if (config.autogg) {
+			autogg(text, config);
+		}
 
-				Versioned.sendChatMessage("gg");
-			}
-		} else if (config.pingDuel && text.contains("wants to duel")) {
+		if (config.pingDuel && text.contains("wants to duel")) {
 			playSound();
 		} else if (config.pingInvite && text.contains("You have been invited to join")) {
 			playSound();
@@ -128,6 +119,48 @@ public class PvPLegacyUtils implements ClientModInitializer {
 			if (config.pingGodGame && text.contains("God Game") || config.pingTenVSTen && text.contains("?v?")) {
 				playSound();
 			}
+		}
+	}
+
+	private static void autogg(String text, PvPLegacyUtilsConfig config) {
+		MinecraftClient client = MinecraftClient.getInstance();
+		if (client.player == null || client.world == null) return;
+
+		// Get the player's team.
+		Team team = client.world.getScoreboard().getPlayerTeam(client.player.getGameProfile().getName());
+		// Fighters in Versus Duels are always in a team with a [R] or [B] prefix,
+		// even after they die and become spectators.
+		// The point of this variable is to prevent external spectators,
+		// that join after the game has started, to say things.
+		boolean isPartOfDuel = team != null;
+
+		boolean isStartOfGame = text.contains("You can use \"/leave\" to leave the game.");
+		isStartOfGame = isStartOfGame || text.matches("^Game (is )?starting in.*");
+
+		boolean isStartOfRound = text.matches(".*has started[.!].*");
+
+		if (config.autoggStartGame && isStartOfGame) {
+			Versioned.sendChatMessage(config.autoggStartGameText);
+			return;
+		}
+
+		if (!isPartOfDuel) return;
+
+		if (config.autoggStartRound && isStartOfRound) {
+			Versioned.sendChatMessage(config.autoggStartRoundText);
+			return;
+		}
+
+		if (!text.contains("was a draw") && !text.contains("won the")) return;
+
+		boolean isEndOfGame = text.contains("game");
+
+		// If `config.autoggEndGame` is false and `config.autoggEndRound` is true,
+		// there will be a `config.autoggEndRoundText` message sent.
+		if (config.autoggEndGame && isEndOfGame) {
+			Versioned.sendChatMessage(config.autoggEndGameText);
+		} else if (config.autoggEndRound && (text.toLowerCase().contains("round") || isEndOfGame)) {
+			Versioned.sendChatMessage(config.autoggEndRoundText);
 		}
 	}
 

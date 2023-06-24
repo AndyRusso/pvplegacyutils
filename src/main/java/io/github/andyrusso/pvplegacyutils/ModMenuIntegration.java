@@ -5,9 +5,14 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.gui.entries.BooleanListEntry;
+import me.shedaniel.clothconfig2.gui.entries.StringListEntry;
 import me.shedaniel.clothconfig2.impl.builders.BooleanToggleBuilder;
+import me.shedaniel.clothconfig2.impl.builders.StringFieldBuilder;
+import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.text.Text;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ModMenuIntegration implements ModMenuApi {
@@ -20,6 +25,8 @@ public class ModMenuIntegration implements ModMenuApi {
                     .setTitle(Text.translatable("pvplegacyutils.title"))
                     .setParentScreen(parent)
                     .setSavingRunnable(config::save);
+
+            ConfigEntryBuilder entryBuilder = menu.entryBuilder();
 
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.general"))
                     .addEntry(
@@ -34,6 +41,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                     "pvplegacyutils.stats.middleClick",
                                     config.statsMiddleClick,
                                     value -> config.statsMiddleClick = value,
+                                    true,
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.1"),
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.2"),
                                     Text.translatable("pvplegacyutils.stats.middleClick.tooltip.3")
@@ -72,6 +80,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                     "pvplegacyutils.leave.explicit",
                                     config.leaveExplicitly,
                                     value -> config.leaveExplicitly = value,
+                                    true,
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.1"),
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.2"),
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.3"),
@@ -90,6 +99,65 @@ public class ModMenuIntegration implements ModMenuApi {
                             )
                     );
 
+            SubCategoryBuilder autogg = entryBuilder.startSubCategory(Text.translatable("pvplegacyutils.autogg"));
+
+            autogg.addAll(Arrays.asList(
+                    toggleOption(
+                            "pvplegacyutils.autogg.toggle",
+                            config.autogg,
+                            value -> config.autogg = value
+                    ),
+                    toggleOptionFalse(
+                            "pvplegacyutils.autogg.startGame",
+                            config.autoggStartGame,
+                            value -> config.autoggStartGame = value
+                    ),
+                    strField(
+                            "pvplegacyutils.autogg.startGame.text",
+                            config.autoggStartGameText,
+                            (string) -> config.autoggStartGameText = string,
+                            "glhf"
+                    ),
+                    toggleOptionFalse(
+                            "pvplegacyutils.autogg.startRound",
+                            config.autoggStartRound,
+                            value -> config.autoggStartRound = value
+                    ),
+                    strField(
+                            "pvplegacyutils.autogg.startRound.text",
+                            config.autoggStartRoundText,
+                            (string) -> config.autoggStartRoundText = string,
+                            "gl"
+                    ),
+                    toggleOption(
+                            "pvplegacyutils.autogg.endRound",
+                            config.autoggEndRound,
+                            value -> config.autoggEndRound = value,
+                            true,
+                            Text.translatable("pvplegacyutils.autogg.endRound.tooltip.1"),
+                            Text.translatable("pvplegacyutils.autogg.endRound.tooltip.2"),
+                            Text.translatable("pvplegacyutils.autogg.endRound.tooltip.3")
+                    ),
+                    strField(
+                            "pvplegacyutils.autogg.endRound.text",
+                            config.autoggEndRoundText,
+                            (string) -> config.autoggEndRoundText = string,
+                            "gg"
+                    ),
+                    toggleOptionFalse(
+                            "pvplegacyutils.autogg.endGame",
+                            config.autoggEndGame,
+                            value -> config.autoggEndGame = value
+                    ),
+                    strField(
+                            "pvplegacyutils.autogg.endGame.text",
+                            config.autoggEndGameText,
+                            (string) -> config.autoggEndGameText = string,
+                            "wp"
+                    )
+            ));
+            autogg.setExpanded(true);
+
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.versusDuels"))
                     .addEntry(
                             toggleOption(
@@ -98,13 +166,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                     value -> config.deathParticles = value
                             )
                     )
-                    .addEntry(
-                            toggleOption(
-                                    "pvplegacyutils.autogg",
-                                    config.autogg,
-                                    value -> config.autogg = value
-                            )
-                    );
+                    .addEntry(autogg.build());
 
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"))
                     .addEntry(
@@ -119,8 +181,12 @@ public class ModMenuIntegration implements ModMenuApi {
         };
     }
 
+    private BooleanListEntry toggleOptionFalse(String name, boolean value, Consumer<Boolean> save) {
+        return toggleOption(name, value, save, false, (Text[]) null);
+    }
+
     private BooleanListEntry toggleOption(String name, boolean value, Consumer<Boolean> save) {
-        return toggleOption(name, value, save, (Text[]) null);
+        return toggleOption(name, value, save, true, (Text[]) null);
     }
 
     /**
@@ -134,16 +200,31 @@ public class ModMenuIntegration implements ModMenuApi {
      * me.shedaniel.clothconfig2.api.ConfigCategory#addEntry(me.shedaniel.clothconfig2.api.AbstractConfigListEntry)
      * addEntry()}
      */
-    private BooleanListEntry toggleOption(String key, boolean value, Consumer<Boolean> save, Text... tooltip) {
+    private BooleanListEntry toggleOption(String key, boolean value, Consumer<Boolean> save, boolean default_, Text... tooltip) {
        BooleanToggleBuilder entry = ConfigEntryBuilder.create()
                .startBooleanToggle(Text.translatable(key), value)
                .setSaveConsumer(save)
-               .setDefaultValue(true);
+               .setDefaultValue(default_);
 
        if (tooltip != null) {
            entry.setTooltip(tooltip);
        }
 
        return entry.build();
+    }
+
+    private StringListEntry strField(String key, String value, Consumer<String> save, String default_) {
+        StringFieldBuilder entry = ConfigEntryBuilder.create()
+                .startStrField(Text.translatable(key), value)
+                .setSaveConsumer(save)
+                .setDefaultValue(default_)
+                .setErrorSupplier(
+                        string -> {
+                            if (!string.isBlank()) return Optional.empty();
+                            return Optional.of(Text.translatable("pvplegacyutils.fieldEmpty"));
+                        }
+                );
+
+        return entry.build();
     }
 }

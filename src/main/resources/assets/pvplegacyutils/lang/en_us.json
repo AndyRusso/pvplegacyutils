@@ -1,4 +1,5 @@
 {
+  "pvplegacyutils.fieldEmpty": "Field can not be empty!",
   "pvplegacyutils.title": "PvP Legacy Utils config menu",
   "pvplegacyutils.general": "General",
   "pvplegacyutils.stats.rightClick": "Right-click for stats of a player",
@@ -21,7 +22,19 @@
   "pvplegacyutils.leave.leftClick": "Left-click on a sign to leave a queue",
   "pvplegacyutils.versusDuels": "Versus duels",
   "pvplegacyutils.deathParticles": "Death particles",
-  "pvplegacyutils.autogg": "Say \"gg\" after a round ends",
+  "pvplegacyutils.autogg": "Auto GG",
+  "pvplegacyutils.autogg.toggle": "Enable this module",
+  "pvplegacyutils.autogg.startGame": "Auto-say at the start of games",
+  "pvplegacyutils.autogg.startGame.text": "Text to send at the start of games",
+  "pvplegacyutils.autogg.startRound": "Auto-say at the start of rounds",
+  "pvplegacyutils.autogg.startRound.text": "Text to send at the start of rounds",
+  "pvplegacyutils.autogg.endRound": "Auto-say at the end of rounds?",
+  "pvplegacyutils.autogg.endRound.tooltip.1": "If \"Auto-say at the end of games\"",
+  "pvplegacyutils.autogg.endRound.tooltip.2": "is disabled, this will be said",
+  "pvplegacyutils.autogg.endRound.tooltip.3": "at the end of games too.",
+  "pvplegacyutils.autogg.endRound.text": "Text to send at the end of rounds",
+  "pvplegacyutils.autogg.endGame": "Auto-say at the end of games",
+  "pvplegacyutils.autogg.endGame.text": "Text to send at the end of games",
   "pvplegacyutils.ffa": "FFA",
   "pvplegacyutils.sortByKills": "Sort the player list by kills"
 }

@@ -38,5 +38,9 @@
   "pvplegacyutils.autogg.endGame": "Auto-say at the end of games",
   "pvplegacyutils.autogg.endGame.text": "Text to send at the end of games",
   "pvplegacyutils.ffa": "FFA",
-  "pvplegacyutils.sortByKills": "Sort the player list by kills"
+  "pvplegacyutils.sortByKills": "Sort the player list by kills",
+  "pvplegacyutils.isdreamonline.notvl": "You are not on PvP Legacy.",
+  "pvplegacyutils.isdreamonline.notlobby": "You should be in the lobby to run this command.",
+  "pvplegacyutils.isdreamonline.no": "Dream is not online, unfortunately. ☹",
+  "pvplegacyutils.isdreamonline.yes": "No way! Dream is online! ☺\nSay hi to him! ❤"
 }

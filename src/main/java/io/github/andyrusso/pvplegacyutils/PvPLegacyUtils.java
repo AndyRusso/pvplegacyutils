@@ -1,8 +1,12 @@
 package io.github.andyrusso.pvplegacyutils;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.andyrusso.pvplegacyutils.api.*;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -10,10 +14,12 @@ import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.AbstractSignBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -34,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * {@code enum} for different cooldowns in the cooldowns {@code EnumMap}.
@@ -62,6 +69,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 					CooldownNames.LEFTCLICK_LEAVE, 0
 			)
 	);
+
+	private static boolean checkForDream = false;
 
 	/**
 	 * Common code for playing a sound for notification features.
@@ -105,6 +114,27 @@ public class PvPLegacyUtils implements ClientModInitializer {
 			// because these are notifications and are actually useful
 			return !text.contains("You have been invited to join") &&
 					!text.contains("is starting in");
+		}
+
+		if (checkForDream && !isPlayer) {
+			ClientPlayerEntity player = MinecraftClient.getInstance().player;
+			if (player == null) return false;
+
+			Consumer<String> send = (String key) ->
+					MinecraftClient.getInstance().execute(() -> player.sendMessage(Text.translatable(key)));
+
+			checkForDream = false;
+			if (text.equals("Could not find player by the name of dream.")) {
+				send.accept("pvplegacyutils.isdreamonline.no");
+				return true;
+			} else if (text.startsWith("Dream is not") || text.toLowerCase().startsWith("dream has disabled")) {
+				send.accept("pvplegacyutils.isdreamonline.yes");
+				return true;
+			} else if (text.startsWith("Dream is on") || text.startsWith("Dream is in")) {
+				send.accept("pvplegacyutils.isdreamonline.yes");
+				return false;
+			}
+			checkForDream = true;
 		}
 
 		return false;
@@ -309,6 +339,32 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		}
 	}
 
+	private static void isdreamonline(
+			CommandDispatcher<FabricClientCommandSource> dispatcher,
+			CommandRegistryAccess _commandRegistryAccess
+	) {
+		dispatcher.register(ClientCommandManager.literal("isdreamonline").executes(
+				context -> {
+					if (!PvPLegacyUtilsAPI.isVl()) {
+						context.getSource().sendFeedback(Text.translatable("pvplegacyutils.isdreamonline.notvl"));
+						return 0;
+					}
+
+					if (!PvPLegacyUtilsAPI.isInLobby()) {
+						context.getSource().sendFeedback(
+								Text.translatable("pvplegacyutils.isdreamonline.notlobby")
+						);
+						return 0;
+					}
+
+					Versioned.sendCommand("fp Dream");
+					checkForDream = true;
+
+					return 0;
+				}
+		));
+	}
+
 	private static void worldTick(ClientWorld world) {
 		// Every tick check if a cooldown is set, and if it is decrease it
 		cooldowns.forEach(
@@ -360,6 +416,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Responsible for detecting whether the player is in Lobby, Versus duel, FFA.
 		ClientTickEvents.END_WORLD_TICK.register(PvPLegacyUtilsAPI::detectMode);
 		LOGGER.info("Registered the every tick event...");
+
+		ClientCommandRegistrationCallback.EVENT.register(PvPLegacyUtils::isdreamonline);
 
 		LOGGER.info("Initialization of {} done!", MOD_ID);
 	}

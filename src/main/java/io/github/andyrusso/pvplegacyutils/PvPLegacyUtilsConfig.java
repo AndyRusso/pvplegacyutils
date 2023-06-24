@@ -30,6 +30,7 @@ public class PvPLegacyUtilsConfig {
     public boolean leaveLeftClick = true;
     //  Versus duels settings
     public boolean deathParticles = true;
+    public boolean hideNoSF = false;
     public boolean autogg = true;
     public boolean autoggStartGame = false;
     public boolean autoggStartRound = false;

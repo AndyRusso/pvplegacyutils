@@ -22,6 +22,7 @@
   "pvplegacyutils.leave.leftClick": "Left-click on a sign to leave a queue",
   "pvplegacyutils.versusDuels": "Versus duels",
   "pvplegacyutils.deathParticles": "Death particles",
+  "pvplegacyutils.hideNoSF": "Hide messages with \"no sf\"",
   "pvplegacyutils.autogg": "Auto GG",
   "pvplegacyutils.autogg.toggle": "Enable this module",
   "pvplegacyutils.autogg.startGame": "Auto-say at the start of games",

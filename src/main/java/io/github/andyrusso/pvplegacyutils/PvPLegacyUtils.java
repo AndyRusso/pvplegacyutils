@@ -1,10 +1,7 @@
 package io.github.andyrusso.pvplegacyutils;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import io.github.andyrusso.pvplegacyutils.api.DeathCallback;
-import io.github.andyrusso.pvplegacyutils.api.LeftClickBlockCallback;
-import io.github.andyrusso.pvplegacyutils.api.NewGameMessageCallback;
-import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
+import io.github.andyrusso.pvplegacyutils.api.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
@@ -90,6 +87,27 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 			client.getSoundManager().play(sound);
 		}
+	}
+
+	private static boolean filter(Text message) {
+		String text = message.getString();
+		PvPLegacyUtilsConfig config = PvPLegacyUtilsConfig.getInstance();
+
+		boolean isPlayer = PvPLegacyUtilsAPI.isPlayerMessage(text);
+
+		if (config.hideNoSF &&
+				PvPLegacyUtilsAPI.isInDuel() &&
+				isPlayer &&
+				text.toLowerCase().contains("no sf")) return true;
+
+		if (config.hideTips && text.startsWith("\n[PvPLegacy]")) {
+			// Hide the message if it's not either of these,
+			// because these are notifications and are actually useful
+			return !text.contains("You have been invited to join") &&
+					!text.contains("is starting in");
+		}
+
+		return false;
 	}
 
 	/**
@@ -313,6 +331,10 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// such as: auto gg, duel notification, party invite notification, ?v? notification.
 		NewGameMessageCallback.EVENT.register(PvPLegacyUtils::onChatMessage);
 		LOGGER.info("Registered the new chat message event...");
+
+		// Responsible for filter features
+		HideGameMessageCallback.EVENT.register(PvPLegacyUtils::filter);
+		LOGGER.info("Registered the hide chat message event...");
 
 		// Responsible for the right-click for stats feature.
 		UseEntityCallback.EVENT.register(PvPLegacyUtils::onUseEntity);

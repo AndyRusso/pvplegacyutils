@@ -166,6 +166,13 @@ public class ModMenuIntegration implements ModMenuApi {
                                     value -> config.deathParticles = value
                             )
                     )
+                    .addEntry(
+                            toggleOptionFalse(
+                                    "pvplegacyutils.hideNoSF",
+                                    config.hideNoSF,
+                                    value -> config.hideNoSF = value
+                            )
+                    )
                     .addEntry(autogg.build());
 
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"))

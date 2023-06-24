@@ -28,6 +28,7 @@ public class PvPLegacyUtilsConfig {
     public boolean pingGodGame = true;
     public boolean leaveExplicitly = true;
     public boolean leaveLeftClick = true;
+    public boolean hideTips = false;
     //  Versus duels settings
     public boolean deathParticles = true;
     public boolean hideNoSF = false;

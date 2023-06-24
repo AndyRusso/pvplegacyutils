@@ -97,6 +97,13 @@ public class ModMenuIntegration implements ModMenuApi {
                                     config.leaveLeftClick,
                                     value -> config.leaveLeftClick = value
                             )
+                    )
+                    .addEntry(
+                            toggleOptionFalse(
+                                    "pvplegacyutils.hideTips",
+                                    config.hideTips,
+                                    value -> config.hideTips = value
+                            )
                     );
 
             SubCategoryBuilder autogg = entryBuilder.startSubCategory(Text.translatable("pvplegacyutils.autogg"));

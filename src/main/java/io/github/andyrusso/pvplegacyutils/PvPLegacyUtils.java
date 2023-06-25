@@ -269,8 +269,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		String name = ((PlayerEntity) entity).getGameProfile().getName();
 		Versioned.sendCommand("stats " + name);
-		// Set the cooldown of this feature to 100 ticks or 5 seconds.
-		cooldowns.put(CooldownNames.STATS, 100);
+		// Set the cooldown of this feature to 10 ticks or 0.5 seconds.
+		cooldowns.put(CooldownNames.STATS, 10);
 
 		// Set the notification cooldown to 5 ticks or 0.25 seconds,
 		// this is needed so the chat wouldn't get spammed with notifications right away.

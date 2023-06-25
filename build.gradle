@@ -70,9 +70,6 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-    modImplementation "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
-    include "com.moandjiezana.toml:toml4j:${project.toml4j_version}"
-
     subprojects.forEach((project) -> {
         include(project) {
             transitive = false

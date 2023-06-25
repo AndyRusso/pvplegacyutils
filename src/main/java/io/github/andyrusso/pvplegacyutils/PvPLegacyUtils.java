@@ -105,7 +105,10 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		boolean isPlayer = PvPLegacyUtilsAPI.isPlayerMessage(text);
 
 		if (config.hideNoSF &&
-				PvPLegacyUtilsAPI.isInDuel() &&
+				// Check this so sf discussion in lobbies and FFA would still be shown,
+				// whilst bypassing the accurate 4-second duel check.
+				!PvPLegacyUtilsAPI.isInLobby() &&
+				!PvPLegacyUtilsAPI.isInFFA() &&
 				isPlayer &&
 				text.toLowerCase().contains("no sf")) return true;
 

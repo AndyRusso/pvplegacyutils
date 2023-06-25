@@ -1,4 +1,4 @@
-package io.github.andyrusso.pvplegacyutils.versions.mc1_19_3.mixin;
+package io.github.andyrusso.pvplegacyutils.versions.mc1_19_3_exclusive.mixin;
 
 import io.github.andyrusso.pvplegacyutils.PvPLegacyUtilsConfig;
 import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
@@ -17,7 +17,6 @@ import java.util.Comparator;
 
 @Mixin(PlayerListHud.class)
 public class MixinPlayerListHud {
-
     @ModifyArgs(
             method = "render",
             at = @At(

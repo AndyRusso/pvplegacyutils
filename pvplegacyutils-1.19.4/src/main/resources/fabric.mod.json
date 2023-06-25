@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "pvplegacyutils-1-19-4",
+  "version": "${version}",
+
+  "name": "PvP Legacy Utils for 1.19.4",
+  "description": "This mod is used to make PvP Legacy Utils work for 1.19.3",
+  "authors": [
+    "Andy Russo"
+  ],
+
+  "license": "GPL-3.0-or-later",
+  "icon": "assets/pvplegacyutils-1-19-4/icon.png",
+
+  "environment": "client",
+
+  "mixins": [
+    "pvplegacyutils-1-19-4.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "fabric": ">=0.75.3",
+    "minecraft": ">=1.19.4",
+    "java": ">=17"
+  },
+
+  "custom": {
+    "modmenu": {
+      "parent": "pvplegacyutils"
+    }
+  }
+}

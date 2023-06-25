@@ -1,10 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.andyrusso.pvplegacyutils.versions.mc1_19_3.mixin",
+  "package": "io.github.andyrusso.pvplegacyutils.versions.mc1_19_3_exclusive.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "MixinClientPlayNetworkHandler"
+    "MixinPlayerListHud"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -3,8 +3,8 @@
   "id": "pvplegacyutils-1-19-3",
   "version": "${version}",
 
-  "name": "PvP Legacy Utils for 1.19.3",
-  "description": "This mod is used to make PvP Legacy Utils work for 1.19.3",
+  "name": "PvP Legacy Utils for 1.19.3+",
+  "description": "This mod has a base for PvP Legacy Utils to work from 1.19.3 all the way to 1.20.1",
   "authors": [
     "Andy Russo"
   ],

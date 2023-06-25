@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "PvP Legacy Utils for 1.19.3",
-  "description": "This mod is used to make PvP Legacy Utils work for 1.19.3",
+  "description": "This mod makes PvP Legacy Utils work on 1.19.3 specifically",
   "authors": [
     "Andy Russo"
   ],

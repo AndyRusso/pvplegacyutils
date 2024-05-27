@@ -158,24 +158,13 @@ public abstract class PvPLegacyUtilsAPI {
         isInFFA = false;
         isInLobby = false;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null || !isVl()) return;
-
-        Scoreboard scoreboard = world.getScoreboard();
-        ScoreboardObjective scoreboardObjective = null;
-        Team team = scoreboard.getPlayerTeam(client.player.getEntityName());
-        if (team != null) {
-            int color = team.getColor().getColorIndex();
-            if (color >= 0) {
-                scoreboardObjective = scoreboard.getObjectiveForSlot(3 + color);
-            }
-        }
-
-        ScoreboardObjective scoreboardObjective2 = scoreboardObjective != null ? scoreboardObjective : scoreboard.getObjectiveForSlot(1);
+        if (!isVl()) return;
 
         if (timeout > 0) {
             timeout--;
         }
+
+        Scoreboard scoreboard = world.getScoreboard();
 
         // If there is a scoreboard that is displayed in the player list, then the player is in FFA.
         // (it always shows the amount of kills that a player has, even if it's 0)
@@ -184,17 +173,17 @@ public abstract class PvPLegacyUtilsAPI {
             return;
         }
 
+        ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(Scoreboard.SIDEBAR_DISPLAY_SLOT_ID);
         // If the scoreboard is empty, this means the player is in a Versus Duel
-        if (scoreboardObjective2 == null) {
+        if (scoreboardObjective == null) {
             if (timeout == 0) isInDuel = true;
             return;
         }
 
         // For every "player" in the sidebar scoreboard, check its decorated name for "Server",
         // because only the Versus Lobby sidebar scoreboard has the "Server" field, and it can not be turned off.
-        for (ScoreboardPlayerScore player :
-                scoreboardObjective2.getScoreboard().getAllPlayerScores(scoreboardObjective2)) {
-            team = scoreboardObjective2.getScoreboard().getPlayerTeam(player.getPlayerName());
+        for (ScoreboardPlayerScore player : scoreboard.getAllPlayerScores(scoreboardObjective)) {
+            Team team = scoreboard.getPlayerTeam(player.getPlayerName());
             String name = Team.decorateName(team, Text.literal(player.getPlayerName())).getString();
             if (name.contains("Server")) {
                 isInLobby = true;

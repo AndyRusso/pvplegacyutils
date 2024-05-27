@@ -23,6 +23,8 @@
     "pvplegacyutils-1-19-3.mixins.json"
   ],
 
+  "accessWidener" : "pvplegacyutils-1-19-3.accesswidener",
+
   "depends": {
     "fabricloader": ">=0.14.0",
     "fabric": ">=0.68.1",

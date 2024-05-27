@@ -31,6 +31,7 @@ public class PvPLegacyUtilsVersioned implements VersionedInterface {
 
     @Override
     public SoundEvent getNoteBlockBell() {
-        return SoundEvents.BLOCK_NOTE_BLOCK_BELL.value();
+        return SoundEvents.BLOCK_NOTE_BLOCK_BELL.value;
+    }
     }
 }

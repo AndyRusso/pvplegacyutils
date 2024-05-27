@@ -4,6 +4,8 @@
 
 package io.github.andyrusso.pvplegacyutils;
 
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 
 public interface VersionedInterface {
@@ -11,4 +13,5 @@ public interface VersionedInterface {
     void sendChatMessage(String message);
     void sendCommand(String command);
     SoundEvent getNoteBlockBell();
+    ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot);
 }

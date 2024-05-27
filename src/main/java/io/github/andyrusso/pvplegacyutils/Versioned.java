@@ -6,6 +6,8 @@ package io.github.andyrusso.pvplegacyutils;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 
@@ -57,5 +59,10 @@ public class Versioned {
     public static SoundEvent getNoteBlockBell() {
         isLoaded();
         return entryPoint.getNoteBlockBell();
+    }
+
+    public static ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot) {
+        isLoaded();
+        return entryPoint.getObjectiveForSlot(scoreboard, slot);
     }
 }

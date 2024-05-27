@@ -6,6 +6,8 @@ package io.github.andyrusso.pvplegacyutils.versions.mc1_19_3;
 
 import io.github.andyrusso.pvplegacyutils.VersionedInterface;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
@@ -33,5 +35,9 @@ public class PvPLegacyUtilsVersioned implements VersionedInterface {
     public SoundEvent getNoteBlockBell() {
         return SoundEvents.BLOCK_NOTE_BLOCK_BELL.value;
     }
+
+    @Override
+    public ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot) {
+        return scoreboard.getObjectiveForSlot(slot);
     }
 }

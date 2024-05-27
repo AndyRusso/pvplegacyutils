@@ -1,5 +1,6 @@
 package io.github.andyrusso.pvplegacyutils.api;
 
+import io.github.andyrusso.pvplegacyutils.Versioned;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
@@ -26,6 +27,21 @@ public abstract class PvPLegacyUtilsAPI {
      * to let the scoreboard appear if the player is in the lobby.
      */
     private static int timeout = 0;
+
+    /**
+     * Constant for scoreboard slot that is responsible for numbers near players' names in the player list.
+     *
+     * <p>This is required because in 1.20.2+ the scoreboard slots are enums and in <1.20.2 they are ints.
+     * I can construct the enums out of ints, so the middle ground is using access by int and constructing the enum
+     * in the 1.20.2 version-specific implementation.
+     */
+    private static final int SCOREBOARD_SLOT_LIST = 0;
+    /**
+     * Constant for scoreboard slot list that is responsible for the sidebar. What many people know as "the scoreboard".
+     *
+     * @see PvPLegacyUtilsAPI#SCOREBOARD_SLOT_LIST
+     */
+    private static final int SCOREBOARD_SLOT_SIDEBAR = 1;
 
     // Whether the player is in a versus duel, FFA, or in the versus lobby
     private static boolean isInDuel = false;
@@ -168,12 +184,14 @@ public abstract class PvPLegacyUtilsAPI {
 
         // If there is a scoreboard that is displayed in the player list, then the player is in FFA.
         // (it always shows the amount of kills that a player has, even if it's 0)
-        if (scoreboard.getObjectiveForSlot(Scoreboard.LIST_DISPLAY_SLOT_ID) != null) {
+        if (Versioned.getObjectiveForSlot(scoreboard, PvPLegacyUtilsAPI.SCOREBOARD_SLOT_LIST) != null) {
             isInFFA = true;
             return;
         }
 
-        ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(Scoreboard.SIDEBAR_DISPLAY_SLOT_ID);
+        ScoreboardObjective scoreboardObjective =
+                Versioned.getObjectiveForSlot(scoreboard, PvPLegacyUtilsAPI.SCOREBOARD_SLOT_SIDEBAR);
+
         // If the scoreboard is empty, this means the player is in a Versus Duel
         if (scoreboardObjective == null) {
             if (timeout == 0) isInDuel = true;

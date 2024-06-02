@@ -3,7 +3,7 @@
 // Copied file: https://github.com/enjarai/shared-resources/blob/master/build.gradle
 
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'maven-publish'
 }
 

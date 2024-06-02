@@ -11,6 +11,7 @@ import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,5 +65,15 @@ public class Versioned {
     public static ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot) {
         isLoaded();
         return entryPoint.getObjectiveForSlot(scoreboard, slot);
+    }
+
+    public static Collection<?> getAllScoreHolders(Scoreboard scoreboard, ScoreboardObjective scoreboardObjective) {
+        isLoaded();
+        return entryPoint.getAllScoreHolders(scoreboard, scoreboardObjective);
+    }
+
+    public static String getScoreHolderName(Object scoreHolder) {
+        isLoaded();
+        return entryPoint.getScoreHolderName(scoreHolder);
     }
 }

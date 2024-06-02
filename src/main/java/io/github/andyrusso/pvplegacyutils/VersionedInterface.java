@@ -8,10 +8,14 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 
+import java.util.Collection;
+
 public interface VersionedInterface {
     String getVersion();
     void sendChatMessage(String message);
     void sendCommand(String command);
     SoundEvent getNoteBlockBell();
     ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot);
+    Collection<?> getAllScoreHolders(Scoreboard scoreboard, ScoreboardObjective scoreboardObjective);
+    String getScoreHolderName(Object scoreHolder);
 }

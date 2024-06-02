@@ -5,8 +5,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardDisplaySlot;
 import net.minecraft.scoreboard.ScoreboardObjective;
+import net.minecraft.scoreboard.ScoreboardPlayerScore;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+
+import java.util.Collection;
 
 public class PvPLegacyUtilsVersioned implements VersionedInterface {
     @Override
@@ -36,5 +39,15 @@ public class PvPLegacyUtilsVersioned implements VersionedInterface {
     @Override
     public ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot) {
         return scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.FROM_ID.apply(slot));
+    }
+
+    @Override
+    public Collection<?> getAllScoreHolders(Scoreboard scoreboard, ScoreboardObjective scoreboardObjective) {
+        return scoreboard.getAllPlayerScores(scoreboardObjective);
+    }
+
+    @Override
+    public String getScoreHolderName(Object scoreHolder) {
+        return ((ScoreboardPlayerScore) scoreHolder).getPlayerName();
     }
 }

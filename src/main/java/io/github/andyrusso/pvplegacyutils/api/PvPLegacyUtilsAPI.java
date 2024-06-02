@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
-import net.minecraft.scoreboard.ScoreboardPlayerScore;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
@@ -200,9 +199,10 @@ public abstract class PvPLegacyUtilsAPI {
 
         // For every "player" in the sidebar scoreboard, check its decorated name for "Server",
         // because only the Versus Lobby sidebar scoreboard has the "Server" field, and it can not be turned off.
-        for (ScoreboardPlayerScore player : scoreboard.getAllPlayerScores(scoreboardObjective)) {
-            Team team = scoreboard.getPlayerTeam(player.getPlayerName());
-            String name = Team.decorateName(team, Text.literal(player.getPlayerName())).getString();
+        for (Object player : Versioned.getAllScoreHolders(scoreboard, scoreboardObjective)) {
+            String scoreHolderName = Versioned.getScoreHolderName(player);
+            Team team = scoreboard.getPlayerTeam(scoreHolderName);
+            String name = Team.decorateName(team, Text.literal(scoreHolderName)).getString();
             if (name.contains("Server")) {
                 isInLobby = true;
                 return;

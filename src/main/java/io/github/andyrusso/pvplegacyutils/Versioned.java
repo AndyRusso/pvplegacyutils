@@ -76,4 +76,9 @@ public class Versioned {
         isLoaded();
         return entryPoint.getScoreHolderName(scoreHolder);
     }
+
+    public static void addFireworkParticle(double x, double y, double z) {
+        isLoaded();
+        entryPoint.addFireworkParticle(x, y, z);
+    }
 }

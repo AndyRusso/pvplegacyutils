@@ -4,6 +4,10 @@
 
 package io.github.andyrusso.pvplegacyutils;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
@@ -18,4 +22,27 @@ public interface VersionedInterface {
     ScoreboardObjective getObjectiveForSlot(Scoreboard scoreboard, int slot);
     Collection<?> getAllScoreHolders(Scoreboard scoreboard, ScoreboardObjective scoreboardObjective);
     String getScoreHolderName(Object scoreHolder);
+    default void addFireworkParticle(double x, double y, double z) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        ClientPlayerEntity player = client.player;
+
+        if (player == null) {
+            return;
+        }
+
+        try {
+            client.player.clientWorld.addFireworkParticle(
+                    x,
+                    y,
+                    z,
+                    0,
+                    0,
+                    0,
+                    StringNbtReader.parse("{Flight:0,Explosions:[{Colors:[I;44782,15724017]}]}")
+            );
+        } catch (CommandSyntaxException e) {
+            // Unreachable
+            throw new RuntimeException(e);
+        }
+    }
 }

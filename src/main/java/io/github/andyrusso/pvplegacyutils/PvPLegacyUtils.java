@@ -1,7 +1,6 @@
 package io.github.andyrusso.pvplegacyutils;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.github.andyrusso.pvplegacyutils.api.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -23,7 +22,6 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -326,20 +324,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		PlayerEntity player = client.player.clientWorld.getPlayerByUuid(playerListEntry.getProfile().getId());
 		if (player == null) return;
 
-		try {
-			client.player.clientWorld.addFireworkParticle(
-					player.getX(),
-					player.getY() + 1,
-					player.getZ(),
-					0,
-					0,
-					0,
-					StringNbtReader.parse("{Flight:0,Explosions:[{Colors:[I;44782,15724017]}]}")
-			);
-		} catch (CommandSyntaxException e) {
-			// Unreachable
-			throw new RuntimeException(e);
-		}
+		Versioned.addFireworkParticle(player.getX(), player.getY() + 1, player.getZ());
 	}
 
 	private static void isdreamonline(

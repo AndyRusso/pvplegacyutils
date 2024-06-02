@@ -18,7 +18,7 @@ public abstract class MixinDownloadingTerrainScreen {
      * @param ci Unused.
      * @see PvPLegacyUtilsAPI
      */
-    @Inject(method = "<init>", at = @At(value = "TAIL"))
+    @Inject(method = "<init>*", at = @At(value = "TAIL"), remap = false)
     private void init(CallbackInfo ci) {
         PvPLegacyUtilsAPI.setIsInQueue(false);
         PvPLegacyUtilsAPI.setTimeout();

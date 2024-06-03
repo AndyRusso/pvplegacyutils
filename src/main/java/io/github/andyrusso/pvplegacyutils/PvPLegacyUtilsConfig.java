@@ -26,7 +26,7 @@ public class PvPLegacyUtilsConfig {
     public boolean pingInvite = true;
     public boolean pingTenVSTen = true;
     public boolean pingGodGame = true;
-    public boolean leaveExplicitly = true;
+    public boolean leaveExplicitly = false;
     public boolean leaveLeftClick = true;
     public boolean hideTips = false;
     //  Versus duels settings

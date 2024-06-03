@@ -80,7 +80,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                     "pvplegacyutils.leave.explicit",
                                     config.leaveExplicitly,
                                     value -> config.leaveExplicitly = value,
-                                    true,
+                                    false,
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.1"),
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.2"),
                                     Text.translatable("pvplegacyutils.leave.explicit.tooltip.3"),

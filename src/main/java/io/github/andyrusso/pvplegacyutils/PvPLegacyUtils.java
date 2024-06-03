@@ -280,19 +280,35 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		return ActionResult.PASS;
 	}
 
-	private static void onBlockLeftClick(BlockPos blockPos) {
-		if (!PvPLegacyUtilsAPI.isInLobby()) return;
+	private static ActionResult onBlockLeftClick(BlockPos blockPos) {
+		if (!PvPLegacyUtilsAPI.isInLobby()) return ActionResult.PASS;
 
-		if (cooldowns.get(CooldownNames.LEFTCLICK_LEAVE) == 0 &&
+		ClientWorld world = MinecraftClient.getInstance().world;
+		if (world == null) return ActionResult.PASS;
+
+		Block block = world.getBlockState(blockPos).getBlock();
+		if (block instanceof AbstractSignBlock) {
+			PvPLegacyUtilsAPI.setTemporarySignBlock(blockPos);
+		}
+
+		if (
 				PvPLegacyUtilsConfig.getInstance().leaveLeftClick &&
 				PvPLegacyUtilsAPI.isInQueue() &&
 				// Check if the clicked block is the sign that the player has queued in.
-				blockPos.equals(PvPLegacyUtilsAPI.getQueuedSignBlock()) &&
-				MinecraftClient.getInstance().player != null) {
+				blockPos.equals(PvPLegacyUtilsAPI.getQueuedSignBlock())
+		) {
+			if (cooldowns.get(CooldownNames.LEFTCLICK_LEAVE) > 0) {
+				return ActionResult.FAIL;
+			}
+
 			Versioned.sendCommand("leave");
-			// Put it on a cooldown of 20 ticks or 1 second to not spam the server with "/leave"s.
-			cooldowns.put(CooldownNames.LEFTCLICK_LEAVE, 20);
+			// Put it on a cooldown of 10 ticks or 0.5 seconds to not spam the server with "/leave"s.
+			cooldowns.put(CooldownNames.LEFTCLICK_LEAVE, 10);
+
+			return ActionResult.SUCCESS;
 		}
+
+		return ActionResult.PASS;
 	}
 
 	public static ActionResult onBlockRightClick(PlayerEntity player,

@@ -1,5 +1,5 @@
 # Changelog
-## [1.1.0](https://github.com/AndyRusso/pvplegacyutils/releases/tag/v1.1.0) - 25.06.2023
+## [1.1.0](https://github.com/AndyRusso/pvplegacyutils/releases/tag/v1.1.0) - 2023-06-25
 ### Changed
 - Menu now has tabs
 - Improved Auto GG to be more customizable

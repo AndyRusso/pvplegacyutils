@@ -1,2 +1,0 @@
-accessWidener	v1	named
-accessible    method    net/minecraft/client/network/PlayerListEntry    setGameMode    (Lnet/minecraft/world/GameMode;)V

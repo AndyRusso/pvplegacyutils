@@ -3,7 +3,7 @@
 // Copied file: https://github.com/enjarai/shared-resources/blob/master/build.gradle
 
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'net.fabricmc.fabric-loom-remap' version '1.15-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -20,10 +20,10 @@ loom {
 // stuff that applies to all projects
 allprojects {
     apply plugin: "maven-publish"
-    apply plugin: "fabric-loom"
+    apply plugin: "net.fabricmc.fabric-loom-remap"
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 17
+        it.options.release = 21
     }
 
     java {

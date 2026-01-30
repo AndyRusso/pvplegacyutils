@@ -158,7 +158,7 @@ public abstract class PvPLegacyUtilsAPI {
             // so that left-click to leave has something to compare with.
             PvPLegacyUtilsAPI.queuedSignBlock = temporarySignBlock;
             setIsInQueue(true);
-        } else if (text.contains("The host left, the queue has ended.") ||
+        } else if (text.contains("The host") && text.contains("the queue") ||
                 text.startsWith("You have left the queue.") ||
                 // Happens very rarely in 10v10 queues, after this message the queue is disbanded
                 text.contains("Game failed to start.")) {

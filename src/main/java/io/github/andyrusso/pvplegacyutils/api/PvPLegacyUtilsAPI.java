@@ -5,6 +5,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardEntry;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
@@ -199,10 +200,10 @@ public abstract class PvPLegacyUtilsAPI {
 
         // For every "player" in the sidebar scoreboard, check its decorated name for "Server",
         // because only the Versus Lobby sidebar scoreboard has the "Server" field, and it can not be turned off.
-        for (Object player : Versioned.getAllScoreHolders(scoreboard, scoreboardObjective)) {
-            String scoreHolderName = Versioned.getScoreHolderName(player);
-            Team team = scoreboard.getPlayerTeam(scoreHolderName);
-            String name = Team.decorateName(team, Text.literal(scoreHolderName)).getString();
+        for (ScoreboardEntry player : scoreboard.getScoreboardEntries(scoreboardObjective)) {
+            Team team = scoreboard.getScoreHolderTeam(player.owner());
+            Text text = player.name();
+            String name = Team.decorateName(team, text).getString();
             if (name.contains("Server")) {
                 isInLobby = true;
                 return;

@@ -4,15 +4,16 @@
 
 package io.github.andyrusso.pvplegacyutils;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.nbt.StringNbtReader;
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.sound.SoundEvent;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface VersionedInterface {
     String getVersion();
@@ -30,19 +31,22 @@ public interface VersionedInterface {
             return;
         }
 
-        try {
-            client.player.clientWorld.addFireworkParticle(
-                    x,
-                    y,
-                    z,
-                    0,
-                    0,
-                    0,
-                    StringNbtReader.parse("{Flight:0,Explosions:[{Colors:[I;44782,15724017]}]}")
-            );
-        } catch (CommandSyntaxException e) {
-            // Unreachable
-            throw new RuntimeException(e);
-        }
+        client.player.clientWorld.addFireworkParticle(
+                x,
+                y,
+                z,
+                0,
+                0,
+                0,
+                List.of(
+                        new FireworkExplosionComponent(
+                                FireworkExplosionComponent.Type.SMALL_BALL,
+                                IntList.of(44782, 157249),
+                                IntList.of(),
+                                false,
+                                false
+                        )
+                )
+        );
     }
 }

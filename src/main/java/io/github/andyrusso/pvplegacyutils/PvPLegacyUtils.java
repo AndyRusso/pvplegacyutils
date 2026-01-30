@@ -122,7 +122,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 			if (player == null) return false;
 
 			Consumer<String> send = (String key) ->
-					MinecraftClient.getInstance().execute(() -> player.sendMessage(Text.translatable(key)));
+					MinecraftClient.getInstance().execute(() -> player.sendMessage(Text.translatable(key), false));
 
 			checkForDream = false;
 			if (text.equals("Could not find player by the name of dream.")) {
@@ -176,7 +176,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		if (client.player == null || client.world == null) return;
 
 		// Get the player's team.
-		Team team = client.world.getScoreboard().getPlayerTeam(client.player.getGameProfile().getName());
+		Team team = client.world.getScoreboard().getScoreHolderTeam(client.player.getGameProfile().getName());
 		// Fighters in Versus Duels are always in a team with a [R] or [B] prefix,
 		// even after they die and become spectators.
 		// The point of this variable is to prevent external spectators,
@@ -258,7 +258,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 								 "[" + Formatting.GREEN + MOD_ID + Formatting.RESET + "]:" +
 										" This feature is on a cooldown, for another " +
 										 Formatting.DARK_GREEN + Formatting.BOLD + cooldown_in_secs + "s"
-						)
+						),
+						false
 				);
 			}
 

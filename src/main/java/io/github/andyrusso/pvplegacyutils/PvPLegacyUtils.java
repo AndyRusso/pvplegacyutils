@@ -16,6 +16,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
@@ -33,6 +34,7 @@ import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.EnumMap;
 import java.util.Map;
@@ -90,7 +92,15 @@ public class PvPLegacyUtils implements ClientModInitializer {
 					client.player.getZ()
 			);
 
-			client.getSoundManager().play(sound);
+			SoundManager sm = client.getSoundManager();
+            try {
+				// This is basically sm.play(sound)
+				// Done for multiversion support.
+                Method m = SoundManager.class.getMethod("method_4873", SoundInstance.class);
+				m.invoke(sm, sound);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
 		}
 	}
 

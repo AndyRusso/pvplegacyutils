@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.AbstractSignBlock;
@@ -21,7 +20,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -213,7 +211,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		}
 	}
 
-	private static ItemStack onMiddleClick(PlayerEntity player, HitResult result) {
+	public static boolean onMiddleClick() {
 		// Although isInLobby() already contains the isVl() check, we still need the isVl() check as a separate thing,
 		// to prevent spectators on other servers to run the /stats command.
 		if (!PvPLegacyUtilsAPI.isVl() ||
@@ -224,13 +222,13 @@ public class PvPLegacyUtils implements ClientModInitializer {
 						MinecraftClient.getInstance().player != null &&
 						// This is done so spectators can middle-click in versus duels to see their stats, why not?
 						!MinecraftClient.getInstance().player.isSpectator()
-		) return ItemStack.EMPTY;
+		) return true;
 
 		Versioned.sendCommand("stats");
 		// Set the cooldown to 10 ticks or 0.5s to not spam the server in case of a ping spike.
 		cooldowns.put(CooldownNames.STATS_MIDDLECLICK, 10);
 
-		return ItemStack.EMPTY;
+		return false;
 	}
 
 	private static ActionResult onUseEntity(PlayerEntity player, World world, Hand hand,
@@ -400,10 +398,6 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// Responsible for the right-click for stats feature.
 		UseEntityCallback.EVENT.register(PvPLegacyUtils::onUseEntity);
 		LOGGER.info("Registered right-click on entity event...");
-
-		// Responsible for middle-click for own stats feature.
-		ClientPickBlockGatherCallback.EVENT.register(PvPLegacyUtils::onMiddleClick);
-		LOGGER.info("Registered the middle-click event...");
 
 		// Responsible for left-click to leave feature.
 		LeftClickBlockCallback.EVENT.register(PvPLegacyUtils::onBlockLeftClick);

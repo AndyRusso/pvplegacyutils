@@ -1,5 +1,8 @@
 package io.github.andyrusso.pvplegacyutils.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import io.github.andyrusso.pvplegacyutils.PvPLegacyUtils;
 import io.github.andyrusso.pvplegacyutils.api.LeftClickBlockCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
@@ -53,6 +56,19 @@ public abstract class MixinMinecraftClient {
             }
 
             ci.cancel();
+        }
+    }
+
+    @WrapOperation(
+            method = "handleInputEvents",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/MinecraftClient;doItemPick()V"
+            )
+    )
+    private void itemPickWrapper(MinecraftClient client, Operation<Void> doItemPick) {
+        if (PvPLegacyUtils.onMiddleClick()) {
+            doItemPick.call(client);
         }
     }
 }

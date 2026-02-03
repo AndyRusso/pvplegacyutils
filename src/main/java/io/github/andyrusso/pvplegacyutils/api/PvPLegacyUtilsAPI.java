@@ -52,7 +52,7 @@ public abstract class PvPLegacyUtilsAPI {
      * Whether the player is in a queue or not.
      *
      * <p>Updated independently of {@link io.github.andyrusso.pvplegacyutils.PvPLegacyUtils},
-     * but is changed from a mixin ({@link io.github.andyrusso.pvplegacyutils.mixin.MixinDownloadingTerrainScreen}),
+     * but is changed from a mixin ({@link io.github.andyrusso.pvplegacyutils.mixin.MixinClientPlayNetworkHandler}),
      * so both, the getter and the setter are available.
      */
     private static boolean isInQueue = false;

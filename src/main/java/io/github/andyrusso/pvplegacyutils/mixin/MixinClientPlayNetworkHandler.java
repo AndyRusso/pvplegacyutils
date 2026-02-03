@@ -2,6 +2,7 @@ package io.github.andyrusso.pvplegacyutils.mixin;
 
 import io.github.andyrusso.pvplegacyutils.api.HideGameMessageCallback;
 import io.github.andyrusso.pvplegacyutils.api.NewGameMessageCallback;
+import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,5 +34,20 @@ public abstract class MixinClientPlayNetworkHandler {
     @Inject(method = "onGameMessage", at = @At("TAIL"))
     private void onGameMessage(GameMessageS2CPacket packet, CallbackInfo _ci) {
         NewGameMessageCallback.EVENT.invoker().interact(packet.content());
+    }
+
+    /**
+     * A simple way to detect and set that the player isn't in any queues anymore whenever they
+     * leave/change world/reconnect to the server.
+     *
+     * <p>Also sets the timeout for proper mode detection.
+     *
+     * @param ci Unused.
+     * @see PvPLegacyUtilsAPI
+     */
+    @Inject(method = "startWorldLoading*", at = @At(value = "HEAD"))
+    private void init(CallbackInfo ci) {
+        PvPLegacyUtilsAPI.setIsInQueue(false);
+        PvPLegacyUtilsAPI.setTimeout();
     }
 }

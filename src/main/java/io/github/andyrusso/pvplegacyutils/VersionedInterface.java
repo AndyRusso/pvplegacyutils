@@ -25,13 +25,13 @@ public interface VersionedInterface {
     String getScoreHolderName(Object scoreHolder);
     default void addFireworkParticle(double x, double y, double z) {
         MinecraftClient client = MinecraftClient.getInstance();
-        ClientPlayerEntity player = client.player;
+        var world = client.world;
 
-        if (player == null) {
+        if (world == null) {
             return;
         }
 
-        client.player.clientWorld.addFireworkParticle(
+        world.addFireworkParticle(
                 x,
                 y,
                 z,

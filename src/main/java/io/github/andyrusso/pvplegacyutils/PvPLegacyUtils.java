@@ -344,9 +344,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 				playerListEntry == null) return;
 
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player == null) return;
+		if (client.world == null) return;
 
-		PlayerEntity player = client.player.clientWorld.getPlayerByUuid(playerListEntry.getProfile().getId());
+		PlayerEntity player = client.world.getPlayerByUuid(playerListEntry.getProfile().getId());
 		if (player == null) return;
 
 		Versioned.addFireworkParticle(player.getX(), player.getY() + 1, player.getZ());

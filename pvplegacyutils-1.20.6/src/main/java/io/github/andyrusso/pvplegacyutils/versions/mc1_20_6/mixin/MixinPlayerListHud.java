@@ -1,6 +1,7 @@
 package io.github.andyrusso.pvplegacyutils.versions.mc1_20_6.mixin;
 
 import io.github.andyrusso.pvplegacyutils.PvPLegacyUtilsConfig;
+import io.github.andyrusso.pvplegacyutils.Versioned;
 import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -31,9 +32,9 @@ public class MixinPlayerListHud {
 
         Comparator<PlayerListEntry> sortByKills = (PlayerListEntry entry1, PlayerListEntry entry2) -> {
             ReadableScoreboardScore entry1ReadableScore =
-                    scoreboard.getScore(ScoreHolder.fromName(entry1.getProfile().getName()), objective);
+                    scoreboard.getScore(ScoreHolder.fromName(Versioned.getProfileName(entry1.getProfile())), objective);
             ReadableScoreboardScore entry2ReadableScore =
-                    scoreboard.getScore(ScoreHolder.fromName(entry2.getProfile().getName()), objective);
+                    scoreboard.getScore(ScoreHolder.fromName(Versioned.getProfileName(entry2.getProfile())), objective);
 
             int entry1Score = entry1ReadableScore == null ? 0 : entry1ReadableScore.getScore();
             int entry2Score = entry2ReadableScore == null ? 0 : entry2ReadableScore.getScore();

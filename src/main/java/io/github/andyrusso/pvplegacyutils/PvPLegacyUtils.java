@@ -184,7 +184,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		if (client.player == null || client.world == null) return;
 
 		// Get the player's team.
-		Team team = client.world.getScoreboard().getScoreHolderTeam(client.player.getGameProfile().getName());
+		Team team = client.world
+				.getScoreboard().getScoreHolderTeam(Versioned.getProfileName(client.player.getGameProfile()));
 		// Fighters in Versus Duels are always in a team with a [R] or [B] prefix,
 		// even after they die and become spectators.
 		// The point of this variable is to prevent external spectators,
@@ -277,7 +278,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 			return ActionResult.PASS;
 		}
 
-		String name = ((PlayerEntity) entity).getGameProfile().getName();
+		String name = Versioned.getProfileName(((PlayerEntity) entity).getGameProfile());
 		Versioned.sendCommand("stats " + name);
 		// Set the cooldown of this feature to 10 ticks or 0.5 seconds.
 		cooldowns.put(CooldownNames.STATS, 10);
@@ -346,7 +347,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		MinecraftClient client = MinecraftClient.getInstance();
 		if (client.world == null) return;
 
-		PlayerEntity player = client.world.getPlayerByUuid(playerListEntry.getProfile().getId());
+		PlayerEntity player = client.world.getPlayerByUuid(Versioned.getProfileId(playerListEntry.getProfile()));
 		if (player == null) return;
 
 		Versioned.addFireworkParticle(player.getX(), player.getY() + 1, player.getZ());

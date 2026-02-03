@@ -152,7 +152,7 @@ public abstract class PvPLegacyUtilsAPI {
         if (isPlayerMessage(text)) return;
         if (MinecraftClient.getInstance().player == null) return;
 
-        String name = MinecraftClient.getInstance().player.getGameProfile().getName();
+        String name = Versioned.getProfileName(MinecraftClient.getInstance().player.getGameProfile());
         if (text.contains(name + " has joined the queue.")) {
             // Set the queuedSignBlock to the latest temporarySignBlock,
             // so that left-click to leave has something to compare with.

@@ -137,7 +137,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 					MinecraftClient.getInstance().execute(() -> player.sendMessage(Text.translatable(key), false));
 
 			checkForDream = false;
-			if (text.equals("Could not find player by the name of dream.")) {
+			if (text.contains("find a player by")) {
 				send.accept("pvplegacyutils.isdreamonline.no");
 				return true;
 			} else if (text.startsWith("Dream is not") || text.toLowerCase().startsWith("dream has disabled")) {

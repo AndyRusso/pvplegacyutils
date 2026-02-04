@@ -1,4 +1,20 @@
 # Changelog
+## [1.2.0](https://github.com/AndyRusso/pvplegacyutils/releases/tag/v1.2.0) - 2025-02-05
+### Added
+- Added support for 1.21.2-1.21.11
+- Added right click to check stats of a player in FFA
+- Added middle click to check your own stats in FFA
+- Added `/pvplegacyutils` command to open config menu
+- Added option to auto gg module for skipping first round message if start of game message is enabled
+
+### Removed
+- Support for anything below 1.21.2
+- Spectators in versus duels can no longer check their stats with middle click
+
+### Fixed
+- Made explicit leave and left click to leave work together as intended
+- Fixed explicit leave/left click to leave being broken when the host leaves the queue
+ 
 ## [1.1.1](https://github.com/AndyRusso/pvplegacyutils/releases/tag/v1.1.1) - 2024-06-03
 This release adds support for 1.20.2-1.21, and fixes a couple issues with left click to leave and explicit leave.  
 Which means this release supports 1.19-1.21, 13 versions of the game!  

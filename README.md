@@ -20,21 +20,21 @@ This is a mod that provides additional client-side features on the server [PvP L
   - Hide messages with "no sf"
   - Various Auto GG options (Start of game, round. End of round, game. Toggles and text changes.)
 - FFA
+  - Right-click a player for their stats
+  - Middle-click for your own stats. Internally uses the Pick Block functionality, which is middle-click by default. Make sure you have Pick Block bound to a key.
   - Sort the player list by kills
 
 More features to come!
 
-# Dependencies & Incompatibilities
+For configuration, you need [Mod Menu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config). Though, the mod will work without them.  
+The configuration menu can be opened through [Mod Menu](https://modrinth.com/mod/modmenu) or the `/pvplegacyutils` command.
+
 The mod requires [Fabric API](https://modrinth.com/mod/fabric-api) to work.
 
-For configuration, you need [Mod Menu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config). Though, the mod will work without them.
-
-I have not discovered any incompatibilities yet.
-
-# Credits
+## Credits
 
 Icon by the [Pufferfish Praise Parliament](https://discord.gg/5AvEYbNpsd) discord server.
 
-Huge thanks to [enjarai](https://github.com/enjarai) and [jacg](https://github.com/jacg311) for their mod, [Shared Resources](https://github.com/enjarai/shared-resources), because a lot of code has been borrowed from it, with their permission, to make this mod possible to have one jar file for all 1.19 minor versions.
+Huge thanks to [enjarai](https://github.com/enjarai) and [jacg](https://github.com/jacg311) for their mod, [Shared Resources](https://github.com/enjarai/shared-resources), because a lot of code has been borrowed from it, with their permission, to make it possible for the 1.0.0-1.1.1 versions have one jar file for all 1.19 and 1.20 minor versions.
 
 And a shout-out to all my friends that helped me test this mod!

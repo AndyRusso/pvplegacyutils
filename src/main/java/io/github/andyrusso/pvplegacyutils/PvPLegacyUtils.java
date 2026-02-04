@@ -73,6 +73,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 	);
 
 	private static boolean checkForDream = false;
+	private static boolean openConfig = false;
 
 	/**
 	 * Common code for playing a sound for notification features.
@@ -382,7 +383,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		);
 	}
 
-	private static void isdreamonline(
+	private static void commands(
 			CommandDispatcher<FabricClientCommandSource> dispatcher,
 			CommandRegistryAccess _commandRegistryAccess
 	) {
@@ -408,6 +409,13 @@ public class PvPLegacyUtils implements ClientModInitializer {
 					return 0;
 				}
 		));
+
+		dispatcher.register(ClientCommandManager.literal("pvplegacyutils").executes(
+				context -> {
+					openConfig = true;
+					return 0;
+				}
+		));
 	}
 
 	private static void worldTick(ClientWorld world) {
@@ -419,6 +427,11 @@ public class PvPLegacyUtils implements ClientModInitializer {
 					}
 				}
 		);
+
+		if (openConfig) {
+			openConfig = false;
+			MinecraftClient.getInstance().setScreen(ModMenuIntegration.getConfigScreen(null));
+		}
 	}
 
 	@Override
@@ -455,7 +468,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		ClientTickEvents.END_WORLD_TICK.register(PvPLegacyUtilsAPI::detectMode);
 		LOGGER.info("Registered the every tick event...");
 
-		ClientCommandRegistrationCallback.EVENT.register(PvPLegacyUtils::isdreamonline);
+		ClientCommandRegistrationCallback.EVENT.register(PvPLegacyUtils::commands);
 
 		LOGGER.info("Initialization of {} done!", MOD_ID);
 	}

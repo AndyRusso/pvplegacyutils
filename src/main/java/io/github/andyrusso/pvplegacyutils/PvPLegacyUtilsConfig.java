@@ -35,6 +35,7 @@ public class PvPLegacyUtilsConfig {
     public boolean autogg = true;
     public boolean autoggStartGame = false;
     public boolean autoggStartRound = false;
+    public boolean autoggSkipFirstRound = true;
     public boolean autoggEndRound = true;
     public boolean autoggEndGame = false;
     public String autoggStartGameText = "glhf";

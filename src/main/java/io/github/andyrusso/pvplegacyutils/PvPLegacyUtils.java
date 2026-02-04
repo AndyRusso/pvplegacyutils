@@ -209,7 +209,10 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 		if (!isPartOfDuel) return;
 
-		if (config.autoggStartRound && isStartOfRound) {
+		if (
+				config.autoggStartRound && isStartOfRound &&
+				!(config.autoggSkipFirstRound && config.autoggStartGame && text.contains("Round 1 has started."))
+		) {
 			networkHandler.sendChatMessage(config.autoggStartRoundText);
 			return;
 		}

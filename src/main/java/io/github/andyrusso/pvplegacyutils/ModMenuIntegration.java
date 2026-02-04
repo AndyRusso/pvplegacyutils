@@ -130,6 +130,11 @@ public class ModMenuIntegration implements ModMenuApi {
                             config.autoggStartRound,
                             value -> config.autoggStartRound = value
                     ),
+                    toggleOption(
+                            "pvplegacyutils.autogg.startRound.skipFirstRound",
+                            config.autoggSkipFirstRound,
+                            value -> config.autoggSkipFirstRound = value
+                    ),
                     strField(
                             "pvplegacyutils.autogg.startRound.text",
                             config.autoggStartRoundText,

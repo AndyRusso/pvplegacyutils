@@ -30,6 +30,7 @@
   "pvplegacyutils.autogg.startGame.text": "Text to send at the start of games",
   "pvplegacyutils.autogg.startRound": "Auto-say at the start of rounds",
   "pvplegacyutils.autogg.startRound.text": "Text to send at the start of rounds",
+  "pvplegacyutils.autogg.startRound.skipFirstRound": "Skip first round if there is a start game message",
   "pvplegacyutils.autogg.endRound": "Auto-say at the end of rounds?",
   "pvplegacyutils.autogg.endRound.tooltip.1": "If \"Auto-say at the end of games\"",
   "pvplegacyutils.autogg.endRound.tooltip.2": "is disabled, this will be said",

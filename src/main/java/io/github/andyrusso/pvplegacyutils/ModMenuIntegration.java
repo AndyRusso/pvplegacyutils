@@ -185,6 +185,20 @@ public class ModMenuIntegration implements ModMenuApi {
             menu.getOrCreateCategory(Text.translatable("pvplegacyutils.ffa"))
                     .addEntry(
                             toggleOption(
+                                    "pvplegacyutils.stats.rightClick",
+                                    config.statsRightClickFFA,
+                                    value -> config.statsRightClickFFA = value
+                            )
+                    )
+                    .addEntry(
+                            toggleOption(
+                                    "pvplegacyutils.stats.middleClick",
+                                    config.statsMiddleClickFFA,
+                                    value -> config.statsMiddleClickFFA = value
+                            )
+                    )
+                    .addEntry(
+                            toggleOption(
                                     "pvplegacyutils.sortByKills",
                                     config.sortByKills,
                                     value -> config.sortByKills = value

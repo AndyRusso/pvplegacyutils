@@ -228,16 +228,13 @@ public class PvPLegacyUtils implements ClientModInitializer {
 	}
 
 	public static boolean onMiddleClick() {
-		// Although isInLobby() already contains the isVl() check, we still need the isVl() check as a separate thing,
-		// to prevent spectators on other servers to run the /stats command.
-		if (!PvPLegacyUtilsAPI.isVl() ||
-				!PvPLegacyUtilsConfig.getInstance().statsMiddleClick ||
+		if (
+				!(
+					PvPLegacyUtilsConfig.getInstance().statsMiddleClick && PvPLegacyUtilsAPI.isInLobby() ||
+					PvPLegacyUtilsConfig.getInstance().statsMiddleClickFFA && PvPLegacyUtilsAPI.isInFFA()
+				) ||
 				// The feature isn't supposed to work if the hud is hidden.
-				MinecraftClient.getInstance().options.hudHidden ||
-				!PvPLegacyUtilsAPI.isInLobby() &&
-						MinecraftClient.getInstance().player != null &&
-						// This is done so spectators can middle-click in versus duels to see their stats, why not?
-						!MinecraftClient.getInstance().player.isSpectator()
+				MinecraftClient.getInstance().options.hudHidden
 		) return true;
 
 		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
@@ -252,8 +249,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 	private static ActionResult onUseEntity(PlayerEntity player, World world, Hand hand,
 											Entity entity, HitResult hitResult) {
-		if (!PvPLegacyUtilsConfig.getInstance().statsRightClick ||
-				!PvPLegacyUtilsAPI.isInLobby() ||
+		if (!(PvPLegacyUtilsConfig.getInstance().statsRightClick && PvPLegacyUtilsAPI.isInLobby() ||
+				PvPLegacyUtilsConfig.getInstance().statsRightClickFFA && PvPLegacyUtilsAPI.isInFFA()) ||
 				// Check if the clicked entity is a player or not.
 				!(entity instanceof PlayerEntity) ||
 				// The feature isn't supposed to work if the hud is hidden.

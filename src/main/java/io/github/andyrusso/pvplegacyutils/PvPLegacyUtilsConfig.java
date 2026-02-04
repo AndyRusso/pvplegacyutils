@@ -42,6 +42,8 @@ public class PvPLegacyUtilsConfig {
     public String autoggEndRoundText = "gg";
     public String autoggEndGameText = "wp";
     //  FFA settings
+    public boolean statsRightClickFFA = true;
+    public boolean statsMiddleClickFFA = true;
     public boolean sortByKills = true;
 
     public void save() {

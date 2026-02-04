@@ -8,5 +8,3 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
-include("pvplegacyutils-1.20.6")

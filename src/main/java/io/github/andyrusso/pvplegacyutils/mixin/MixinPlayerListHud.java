@@ -1,4 +1,4 @@
-package io.github.andyrusso.pvplegacyutils.versions.mc1_20_6.mixin;
+package io.github.andyrusso.pvplegacyutils.mixin;
 
 import io.github.andyrusso.pvplegacyutils.PvPLegacyUtilsConfig;
 import io.github.andyrusso.pvplegacyutils.Versioned;
@@ -6,7 +6,11 @@ import io.github.andyrusso.pvplegacyutils.api.PvPLegacyUtilsAPI;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.scoreboard.*;
+import net.minecraft.scoreboard.ReadableScoreboardScore;
+import net.minecraft.scoreboard.ScoreHolder;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardDisplaySlot;
+import net.minecraft.scoreboard.ScoreboardObjective;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;

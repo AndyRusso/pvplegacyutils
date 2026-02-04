@@ -2,6 +2,7 @@ package io.github.andyrusso.pvplegacyutils;
 
 import com.mojang.brigadier.CommandDispatcher;
 import io.github.andyrusso.pvplegacyutils.api.*;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -19,10 +20,12 @@ import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -37,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -80,7 +84,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		if (client.player != null) {
 			// Create the sound.
 			PositionedSoundInstance sound = new PositionedSoundInstance(
-					Versioned.getNoteBlockBell(),
+					SoundEvents.BLOCK_NOTE_BLOCK_BELL.value(),
 					SoundCategory.MASTER,
 					// Set this to prevent the sound getting quieter as the player goes further away.
 					Float.MAX_VALUE,
@@ -181,7 +185,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 	private static void autogg(String text, PvPLegacyUtilsConfig config) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player == null || client.world == null) return;
+		var networkHandler = client.getNetworkHandler();
+		if (client.player == null || client.world == null || networkHandler == null) return;
 
 		// Get the player's team.
 		Team team = client.world
@@ -198,14 +203,14 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		boolean isStartOfRound = text.matches(".*has started[.!].*");
 
 		if (config.autoggStartGame && isStartOfGame) {
-			Versioned.sendChatMessage(config.autoggStartGameText);
+			networkHandler.sendChatMessage(config.autoggStartGameText);
 			return;
 		}
 
 		if (!isPartOfDuel) return;
 
 		if (config.autoggStartRound && isStartOfRound) {
-			Versioned.sendChatMessage(config.autoggStartRoundText);
+			networkHandler.sendChatMessage(config.autoggStartRoundText);
 			return;
 		}
 
@@ -216,9 +221,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		// If `config.autoggEndGame` is false and `config.autoggEndRound` is true,
 		// there will be a `config.autoggEndRoundText` message sent.
 		if (config.autoggEndGame && isEndOfGame) {
-			Versioned.sendChatMessage(config.autoggEndGameText);
+			networkHandler.sendChatMessage(config.autoggEndGameText);
 		} else if (config.autoggEndRound && (text.toLowerCase().contains("round") || isEndOfGame)) {
-			Versioned.sendChatMessage(config.autoggEndRoundText);
+			networkHandler.sendChatMessage(config.autoggEndRoundText);
 		}
 	}
 
@@ -235,7 +240,10 @@ public class PvPLegacyUtils implements ClientModInitializer {
 						!MinecraftClient.getInstance().player.isSpectator()
 		) return true;
 
-		Versioned.sendCommand("stats");
+		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+			MinecraftClient.getInstance().getNetworkHandler().sendChatCommand("stats");
+		}
+
 		// Set the cooldown to 10 ticks or 0.5s to not spam the server in case of a ping spike.
 		cooldowns.put(CooldownNames.STATS_MIDDLECLICK, 10);
 
@@ -279,7 +287,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		}
 
 		String name = Versioned.getProfileName(((PlayerEntity) entity).getGameProfile());
-		Versioned.sendCommand("stats " + name);
+		if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+			MinecraftClient.getInstance().getNetworkHandler().sendChatCommand("stats " + name);
+		}
 		// Set the cooldown of this feature to 10 ticks or 0.5 seconds.
 		cooldowns.put(CooldownNames.STATS, 10);
 
@@ -311,7 +321,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 				return ActionResult.FAIL;
 			}
 
-			Versioned.sendCommand("leave");
+			if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+				MinecraftClient.getInstance().getNetworkHandler().sendChatCommand("leave");
+			}
 			// Put it on a cooldown of 10 ticks or 0.5 seconds to not spam the server with "/leave"s.
 			cooldowns.put(CooldownNames.LEFTCLICK_LEAVE, 10);
 
@@ -350,7 +362,23 @@ public class PvPLegacyUtils implements ClientModInitializer {
 		PlayerEntity player = client.world.getPlayerByUuid(Versioned.getProfileId(playerListEntry.getProfile()));
 		if (player == null) return;
 
-		Versioned.addFireworkParticle(player.getX(), player.getY() + 1, player.getZ());
+		client.world.addFireworkParticle(
+				player.getX(),
+				player.getY() + 1,
+				player.getZ(),
+				0,
+				0,
+				0,
+				List.of(
+						new FireworkExplosionComponent(
+								FireworkExplosionComponent.Type.SMALL_BALL,
+								IntList.of(44782, 157249),
+								IntList.of(),
+								false,
+								false
+						)
+				)
+		);
 	}
 
 	private static void isdreamonline(
@@ -371,7 +399,9 @@ public class PvPLegacyUtils implements ClientModInitializer {
 						return 0;
 					}
 
-					Versioned.sendCommand("fp Dream");
+					if (MinecraftClient.getInstance().getNetworkHandler() != null) {
+						MinecraftClient.getInstance().getNetworkHandler().sendChatCommand("fp Dream");
+					}
 					checkForDream = true;
 
 					return 0;
@@ -393,9 +423,6 @@ public class PvPLegacyUtils implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		LOGGER.info("Initializing {}...", MOD_ID);
-
-		Versioned.load();
-		LOGGER.info("Loaded the version dependent implementations...");
 
 		// Responsible for chat-based features,
 		// such as: auto gg, duel notification, party invite notification, ?v? notification.

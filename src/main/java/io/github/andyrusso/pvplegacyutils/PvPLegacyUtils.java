@@ -301,19 +301,18 @@ public class PvPLegacyUtils implements ClientModInitializer {
 	}
 
 	private static ActionResult onBlockLeftClick(BlockPos blockPos) {
-		if (!PvPLegacyUtilsAPI.isInLobby()) return ActionResult.PASS;
-
 		ClientWorld world = MinecraftClient.getInstance().world;
-		if (world == null) return ActionResult.PASS;
+		if (!PvPLegacyUtilsAPI.isInLobby() || world == null) return ActionResult.PASS;
 
 		Block block = world.getBlockState(blockPos).getBlock();
 		if (block instanceof AbstractSignBlock) {
 			PvPLegacyUtilsAPI.setTemporarySignBlock(blockPos);
 		}
 
+		if (!PvPLegacyUtilsAPI.isInQueue()) return ActionResult.PASS;
+
 		if (
 				PvPLegacyUtilsConfig.getInstance().leaveLeftClick &&
-				PvPLegacyUtilsAPI.isInQueue() &&
 				// Check if the clicked block is the sign that the player has queued in.
 				blockPos.equals(PvPLegacyUtilsAPI.getQueuedSignBlock())
 		) {
@@ -329,6 +328,8 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 			return ActionResult.SUCCESS;
 		}
+
+		if (PvPLegacyUtilsConfig.getInstance().leaveExplicitly) return ActionResult.FAIL;
 
 		return ActionResult.PASS;
 	}

@@ -374,7 +374,7 @@ public class PvPLegacyUtils implements ClientModInitializer {
 				List.of(
 						new FireworkExplosionComponent(
 								FireworkExplosionComponent.Type.SMALL_BALL,
-								IntList.of(44782, 157249),
+								IntList.of(44782, 15724017),
 								IntList.of(),
 								false,
 								false

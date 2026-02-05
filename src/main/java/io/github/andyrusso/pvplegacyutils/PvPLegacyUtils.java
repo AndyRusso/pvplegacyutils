@@ -436,40 +436,28 @@ public class PvPLegacyUtils implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		LOGGER.info("Initializing {}...", MOD_ID);
-
 		// Responsible for chat-based features,
-		// such as: auto gg, duel notification, party invite notification, ?v? notification.
+		// such as: auto gg, duel notification, party invite notification, ?v? notification, hiding "no sf", etc.
 		NewGameMessageCallback.EVENT.register(PvPLegacyUtils::onChatMessage);
-		LOGGER.info("Registered the new chat message event...");
-
-		// Responsible for filter features
 		HideGameMessageCallback.EVENT.register(PvPLegacyUtils::filter);
-		LOGGER.info("Registered the hide chat message event...");
 
 		// Responsible for the right-click for stats feature.
 		UseEntityCallback.EVENT.register(PvPLegacyUtils::onUseEntity);
-		LOGGER.info("Registered right-click on entity event...");
 
 		// Responsible for left-click to leave feature.
 		LeftClickBlockCallback.EVENT.register(PvPLegacyUtils::onBlockLeftClick);
-		LOGGER.info("Registered the right-click on block event...");
 
 		// Responsible for explicit /leave feature, and is also a data source for the API field "temporarySignBlock".
 		UseBlockCallback.EVENT.register(PvPLegacyUtils::onBlockRightClick);
-		LOGGER.info("Registered the right-click on block event...");
 
 		// Responsible for death particles feature
 		DeathCallback.EVENT.register(PvPLegacyUtils::onDeath);
 
 		// Responsible for counting down cooldowns.
 		ClientTickEvents.START_WORLD_TICK.register(PvPLegacyUtils::worldTick);
-		// Responsible for detecting whether the player is in Lobby, Versus duel, FFA.
+
 		ClientTickEvents.END_WORLD_TICK.register(PvPLegacyUtilsAPI::detectMode);
-		LOGGER.info("Registered the every tick event...");
 
 		ClientCommandRegistrationCallback.EVENT.register(PvPLegacyUtils::commands);
-
-		LOGGER.info("Initialization of {} done!", MOD_ID);
 	}
 }
